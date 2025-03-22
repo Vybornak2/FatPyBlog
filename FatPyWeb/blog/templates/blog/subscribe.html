@@ -1,0 +1,162 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Subscribe - FatPyWeb{% endblock %}
+
+{% block additional_styles %}
+/* Override container width only for this page */
+.container #main {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* Fix for duplicate margin-top declaration */
+#main {
+    text-align: center;
+}
+.benefits-list {
+    text-align: left;
+    margin: 20px 0;
+    padding-left: 20px;
+}
+.benefits-list li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+.benefits-list li:before {
+    content: "✓";
+    color: #233a8f;
+    font-weight: bold;
+    margin-right: 10px;
+}
+.intro-text {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+.subscription-form {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+.form-title {
+    color: #233a8f;
+    margin-bottom: 15px;
+}
+.subscription-form input[type="email"] {
+    max-width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.subscription-form button {
+    background-color: #233a8f;
+    color: white;
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    max-width: 200px;
+    margin: 0 auto; /* Center the button */
+    display: block; /* Make button a block element for centering */
+}
+.subscription-form button:hover {
+    background-color: #1a2a6c;
+    transform: translateY(-2px);
+}
+.form-footer {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 15px;
+}
+.success-message {
+    background-color: #dff0d8;
+    color: #3c763d;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: none;
+}
+.error-message {
+    color: #a94442;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    text-align: left;
+}
+{% endblock %}
+
+{% block header_title %}Subscribe{% endblock %}
+
+{% block header_content %}
+<div class="header-buttons">
+    <a href="{% url 'post_list' %}">Return to posts</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="success-message" id="success-message">
+    Thank you for subscribing! You will now receive updates about our latest posts.
+</div>
+
+<p class="intro-text">Join our newsletter to stay updated with the latest posts and developments.</p>
+
+<h3>Subscriber Benefits:</h3>
+<ul class="benefits-list">
+    <li>Get notified about new blog posts immediately</li>
+    <li>Receive exclusive content available only to subscribers</li>
+    <li>Stay updated with the latest developments and news</li>
+    <li>Unsubscribe anytime with a single click</li>
+</ul>
+
+<div class="subscription-form">
+    <h3 class="form-title">Subscribe to Our Newsletter</h3>
+    <form method="post" id="subscription-form">
+        {% csrf_token %}
+        <div class="form-field">
+            {{ form.email }}
+            {% if form.email.errors %}
+            <div class="error-message">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+        <button type="submit" id="subscribe-button">Subscribe</button>
+        <p class="form-footer">We respect your privacy. Your email will never be shared.</p>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle form submission
+        const form = document.getElementById('subscription-form');
+        const button = document.getElementById('subscribe-button');
+        const successMessage = document.getElementById('success-message');
+        
+        // Check for URL parameters to display success message
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('subscribed') === 'true') {
+            successMessage.style.display = 'block';
+            // Scroll to the top to show the message
+            window.scrollTo(0, 0);
+        }
+        
+        // Add client-side validation
+        const emailInput = document.querySelector('input[type="email"]');
+        emailInput.addEventListener('input', function() {
+            const email = this.value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (emailPattern.test(email)) {
+                this.style.borderColor = '#4CAF50';
+            } else {
+                this.style.borderColor = email ? '#f44336' : '#ccc';
+            }
+        });
+    });
+</script>
+{% endblock %}

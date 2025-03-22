@@ -1,0 +1,36 @@
+{% extends "blog/base.html" %}
+
+{% block title %}New Post - FatPyWeb{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+{% endblock %}
+
+{% block header_title %}New Post{% endblock %}
+
+{% block header_content %}
+<div class="header-buttons">
+    <a href="{% url 'post_list' %}">Back to posts</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {{ form.title.errors }}
+    <label for="id_title">Title:</label>
+    {{ form.title }}
+    {{ form.content.errors }}
+    <label for="id_content">Content:</label>
+    <textarea id="id_content" name="content">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
+    <button type="submit">Save</button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+<script>
+    var simplemde = new SimpleMDE({ element: document.getElementById("id_content") });
+</script>
+{% endblock %}
