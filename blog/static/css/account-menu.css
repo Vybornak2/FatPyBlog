@@ -1,19 +1,46 @@
-/* Account Menu Styles */
-.account-menu {
-    position: relative;
+/* Account Menu Styles - Made consistent with nav-menu */
+.account-menu, 
+.nav-menu {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
-.account-menu .dropdown-menu {
+/* Common styling for both menus - unified dropdown styling */
+.account-menu .dropdown-menu,
+.nav-menu .dropdown-menu {
     min-width: 180px !important;
-    margin-top: 0.5rem !important;
     padding: 0.4rem !important;
     border: none !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
     border-radius: 10px !important;
     overflow: hidden !important;
+    
+    /* Position menus directly below toggle buttons with no gap */
+    position: absolute !important;
+    top: 25% !important;
+    margin-top: 0 !important; /* Remove margin completely */
+    
+    /* Disable animations */
+    animation: none !important;
+    transition: opacity 0.15s linear !important;
 }
 
-.account-menu .dropdown-item {
+/* Position both menus to grow leftward */
+.nav-menu .dropdown-menu,
+.account-menu .dropdown-menu {
+    right: 0px !important;
+    left: auto !important;
+}
+
+/* Override for mobile if needed */
+.dropdown-menu-end {
+    --bs-position: end !important;
+}
+
+/* Common item styling for both menus */
+.account-menu .dropdown-item,
+.nav-menu .dropdown-item {
     padding: 0.7rem 1rem !important;
     font-size: 0.95rem !important;
     color: var(--text-color) !important;
@@ -30,7 +57,9 @@
     border-radius: 6px !important;
 }
 
-.account-menu .dropdown-item:hover {
+/* Common hover effects for both menus */
+.account-menu .dropdown-item:hover,
+.nav-menu .dropdown-item:hover {
     background-color: #f4f7ff !important;
     color: var(--primary-color) !important;
     border-left-color: var(--primary-color) !important;
@@ -60,14 +89,31 @@
     transform: scale(1.1);
 }
 
-/* Dropdown transition */
-.account-menu .dropdown-menu.show {
-    animation: slideIn 0.2s ease-out;
+/* Simple fade for both menus */
+.dropdown-menu.show {
+    opacity: 1 !important;
+    display: block !important;
 }
 
-@keyframes slideIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Toggle button styling for both menus */
+.account-menu .dropdown-toggle,
+.nav-menu .dropdown-toggle {
+    position: relative !important; /* Establish positioning context */
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Remove dropdown arrows from both menus */
+.account-menu .dropdown-toggle::after,
+.nav-menu .dropdown-toggle::after {
+    display: none !important;
 }
 
 /* Responsive styling */
@@ -76,5 +122,26 @@
         width: 28px !important;
         height: 28px !important;
         font-size: 12px !important;
+    }
+    
+    /* Consistent mobile dropdown positioning for both menus */
+    .account-menu .dropdown-menu,
+    .nav-menu .dropdown-menu {
+        position: absolute !important;
+        top: 100% !important;
+        width: 200px !important;
+        margin-top: 0 !important; /* No margin on mobile */
+        transform: none !important;
+    }
+    
+    /* Menu alignment on mobile - both go to their respective sides */
+    .account-menu .dropdown-menu {
+        right: 0 !important;
+        left: auto !important;
+    }
+    
+    .nav-menu .dropdown-menu {
+        right: auto !important;
+        left: 0 !important;
     }
 }
