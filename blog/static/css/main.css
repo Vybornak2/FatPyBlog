@@ -58,9 +58,12 @@ a:hover {
 header {
     background: var(--primary-color);
     color: var(--light-text);
-    padding: 1rem 0;
+    padding: 0; /* Remove padding to control spacing with inner elements */
     border-bottom: 3px solid var(--primary-dark);
     box-shadow: var(--shadow);
+    height: 80px; /* Fixed height for consistency */
+    display: flex;
+    align-items: center;
 }
 
 header .container {
@@ -68,24 +71,58 @@ header .container {
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    height: 100%;
 }
 
 header a {
     color: var(--light-text);
     text-decoration: none;
-    text-transform: uppercase;
     font-size: 0.9rem;
+    /* Remove text-transform to prevent forcing uppercase */
 }
 
 header #branding {
     flex: 1;
     min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    height: 100%; /* Use full header height */
+    position: relative; /* For absolute positioning of subtitle */
 }
 
 header #branding h1 {
     margin: 0;
     font-size: 1.8rem;
     color: var(--light-text); /* Explicitly set the header title color to white */
+    line-height: 1.2;
+}
+
+header #branding h1 a {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--light-text); /* Keep the text white */
+    text-decoration: none; /* Remove underline for cleaner look */
+    font-weight: bold;
+    text-transform: none; /* Explicitly prevent uppercase transformation */
+}
+
+header #branding h1 a:hover {
+    color: var(--light-text); /* Keep white on hover */
+    text-decoration: none; /* No underline on hover */
+    opacity: 0.9; /* Subtle hover effect */
+}
+
+header #branding .page-subtitle {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    line-height: 1;
+    position: absolute;
+    bottom: -1rem; /* Position below the main title */
+    left: 0;
+    width: 100%;
+    opacity: 0.9;
 }
 
 /* Navigation */
@@ -498,9 +535,15 @@ footer p {
         flex-direction: column;
         padding: 0.5rem;
     }
+    header {
+        height: auto; /* Allow flexible height on mobile */
+        padding: 1rem 0;
+    }
     header #branding {
+        height: auto;
         margin-bottom: 0.5rem;
         text-align: center;
+        align-items: center; /* Center header content on mobile */
     }
     
     .header-actions {
@@ -535,6 +578,11 @@ footer p {
     
     .header-actions input[type="text"] {
         width: 70%; /* Maintain proportional width */
+    }
+    
+    header #branding .page-subtitle {
+        position: static;
+        margin-top: 0.2rem;
     }
 }
 

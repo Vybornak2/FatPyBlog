@@ -3,12 +3,9 @@
 
 {% block title %}Delete Post - FatPyBlog{% endblock %}
 
-{% block header_title %}Delete Post{% endblock %}
-
+{% with page_subtitle="Delete Post" %}
 {% block header_content %}
-<div class="header-buttons">
-    <a href="{% url 'blog:post_list' %}">Return to posts</a>
-</div>
+{% include "blog/partials/_header_actions.html" %}
 {% endblock %}
 
 {% block content %}
@@ -30,3 +27,4 @@
     </div>
 </div>
 {% endblock %}
+{% endwith %}

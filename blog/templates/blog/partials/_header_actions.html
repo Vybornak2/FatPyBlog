@@ -1,0 +1,8 @@
+<div class="header-buttons">
+    {% if show_new_post %}
+    <a href="{% url 'blog:post_new' %}">New Post</a>
+    {% endif %}
+    {% if show_subscribe %}
+    <a href="{% url 'blog:subscribe' %}">Subscribe</a>
+    {% endif %}
+</div>

@@ -16,7 +16,10 @@
         <header>
             <div class="container">
                 <div id="branding">
-                    <h1>{% block header_title %}FatPyBlog{% endblock %}</h1>
+                    <h1><a href="{% url 'blog:post_list' %}">FatPyBlog</a></h1>
+                    {% if page_subtitle %}
+                    <div class="page-subtitle">{{ page_subtitle }}</div>
+                    {% endif %}
                 </div>
                 {% block header_content %}{% endblock %}
             </div>

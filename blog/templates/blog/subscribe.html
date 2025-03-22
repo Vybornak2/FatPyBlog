@@ -3,6 +3,7 @@
 
 {% block title %}Subscribe - FatPyBlog{% endblock %}
 
+{% with page_subtitle="Subscribe to Updates" %}
 {% block extra_head %}
 <style>
     /* Page-specific styles */
@@ -16,12 +17,8 @@
 </style>
 {% endblock %}
 
-{% block header_title %}Subscribe{% endblock %}
-
 {% block header_content %}
-<div class="header-buttons">
-    <a href="{% url 'blog:post_list' %}">Return to posts</a>
-</div>
+{% include "blog/partials/_header_actions.html" %}
 {% endblock %}
 
 {% block content %}
@@ -56,6 +53,7 @@
     </form>
 </div>
 {% endblock %}
+{% endwith %}
 
 {% block scripts %}
 <script>

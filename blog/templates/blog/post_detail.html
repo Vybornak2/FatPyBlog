@@ -3,6 +3,7 @@
 
 {% block title %}{{ post.title }} - FatPyBlog{% endblock %}
 
+{% with page_subtitle=post.title %}
 {% block header_title %}{{ post.title }}{% endblock %}
 
 {% block header_content %}
@@ -11,14 +12,13 @@
         <!-- Navigation items if needed -->
     </ul>
 </nav>
-<div class="header-buttons">
-    <a href="{% url 'blog:post_list' %}">Return to posts</a>
-</div>
+{% include "blog/partials/_header_actions.html" %}
 {% endblock %}
 
 {% block content %}
     {% include "blog/partials/_post.html" with detail_view=True %}
 {% endblock %}
+{% endwith %}
 
 {% block scripts %}
 <script src="{% static 'js/post-images.js' %}"></script>

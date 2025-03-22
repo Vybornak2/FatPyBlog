@@ -17,10 +17,7 @@
         <button type="submit">Search</button>
     </form>
 </div>
-<div class="header-buttons">
-    <a href="{% url 'blog:post_new' %}">New Post</a>
-    <a href="{% url 'blog:subscribe' %}">Subscribe</a>
-</div>
+{% include "blog/partials/_header_actions.html" with show_new_post=True show_subscribe=True %}
 {% endblock %}
 
 {% block content %}
