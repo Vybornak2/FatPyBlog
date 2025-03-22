@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if form.instance.pk %}Edit Post{% else %}New Post{% endif %}
+{% endblock %}
+
+{% block content %}
+<h1>{% if form.instance.pk %}Edit Post{% else %}Create New Post{% endif %}</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {% for field in form %}
+        <div class="mb-3">
+            {{ field.label_tag }}
+            
+            {% if field.name == 'content' %}
+                <textarea name="{{ field.name }}" 
+                         class="form-control" 
+                         rows="10" 
+                         id="{{ field.id_for_label }}">{{ field.value|default:'' }}</textarea>
+            {% elif field.field.widget.input_type == 'file' %}
+                {{ field }}
+                {% if field.value %}
+                    <p class="mt-2">Current image: {{ field.value }}</p>
+                {% endif %}
+            {% else %}
+                {{ field.as_widget|safe }}
+            {% endif %}
+            
+            {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+            
+            {% if field.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    
+    <button type="submit" class="btn btn-primary">
+        {% if form.instance.pk %}Update{% else %}Create{% endif %} Post
+    </button>
+    <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

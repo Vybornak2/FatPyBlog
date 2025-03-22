@@ -1,9 +1,18 @@
+# Core Django
 Django>=3.2.0,<4.0.0
-python-decouple==3.6
-Pillow==9.0.0
-django-crispy-forms==1.14.0
-djangorestframework==3.13.0
-gunicorn==20.1.0
-whitenoise==6.0.0
-markdown>=3.7
-python-dotenv>=1.0.0
+
+# Database
+# If using PostgreSQL:
+# psycopg2-binary>=2.9.0
+
+# Web server
+# gunicorn>=20.1.0  # Uncomment if deploying with gunicorn
+
+# Static files
+whitenoise>=6.0.0
+
+# Media handling
+Pillow>=9.0.0  # Required for ImageField
+
+# Security
+django-environ>=0.8.0

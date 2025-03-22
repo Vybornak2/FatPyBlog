@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category.name }} Posts{% endblock %}
+
+{% block content %}
+<h1>Posts in {{ category.name }}</h1>
+
+{% if category.description %}
+    <div class="mb-4">
+        <p>{{ category.description }}</p>
+    </div>
+{% endif %}
+
+{% if posts %}
+    {% for post in posts %}
+        <div class="card mb-4">
+            {% if post.featured_image %}
+                <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h2 class="card-title">{{ post.title }}</h2>
+                <p class="text-muted">
+                    {{ post.publish|date:"F d, Y" }} by {{ post.author.username }}
+                </p>
+                <p class="card-text">{{ post.content|truncatewords:50|linebreaks }}</p>
+                <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No posts available in this category yet.</p>
+{% endif %}
+{% endblock %}
