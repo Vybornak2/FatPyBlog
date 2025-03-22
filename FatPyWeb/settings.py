@@ -177,9 +177,3 @@ LOGGING = {
 
 # Make sure the logs directory exists
 (BASE_DIR / "logs").mkdir(exist_ok=True)
-
-# LOGIN/LOGOUT URLS
-# ------------------------------------------------------------------------------
-LOGIN_URL = "login"  # URL where users should be redirected to log in
-LOGIN_REDIRECT_URL = "blog:post_list"
-LOGOUT_REDIRECT_URL = "blog:post_list"

@@ -6,16 +6,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import RedirectView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # Add user authentication URLs - make sure these come before blog urls
-    path("accounts/", include("django.contrib.auth.urls")),
     # Blog URLs
     path("", include("blog.urls")),
-    # Redirect root URL to blog list if needed
-    # path("", RedirectView.as_view(pattern_name="blog:post_list", permanent=False)),
 ]
 
 # Serve media files in development

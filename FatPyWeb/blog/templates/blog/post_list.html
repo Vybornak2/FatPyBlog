@@ -18,11 +18,7 @@
     </form>
 </div>
 <div class="header-buttons">
-    {% if user.is_authenticated %}
     <a href="{% url 'blog:post_new' %}">New Post</a>
-    {% else %}
-    <a href="{% url 'login' %}?next={% url 'blog:post_new' %}">Sign in to Post</a>
-    {% endif %}
     <a href="{% url 'blog:subscribe' %}">Subscribe</a>
 </div>
 {% endblock %}
@@ -41,11 +37,7 @@
         {% if not no_results %}
         <div class="empty-state">
             <p>No posts available yet. Be the first to create one!</p>
-            {% if user.is_authenticated %}
             <a href="{% url 'blog:post_new' %}" class="btn">Create New Post</a>
-            {% else %}
-            <a href="{% url 'login' %}?next={% url 'blog:post_new' %}" class="btn">Sign in to Post</a>
-            {% endif %}
         </div>
         {% endif %}
     {% endfor %}
