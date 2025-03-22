@@ -17,12 +17,39 @@
     <div class="post-titles-container">
         <h2>All Posts</h2>
         <div class="post-titles-list">
+            <!-- Table header -->
+            <div class="post-title-header">
+                <div class="col-title">Title</div>
+                <div class="col-author">Author</div>
+                <div class="col-tags">Tags</div>
+                <div class="col-date">Date</div>
+            </div>
+            
             {% for post in posts %}
                 <div class="post-title-item">
-                    <div class="post-title">
+                    <div class="col-title">
                         <a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a>
                     </div>
-                    <div class="post-date">
+                    <div class="col-author">
+                        {% if post.author %}
+                            {{ post.author.first_name }} {{ post.author.last_name }}
+                            {% if not post.author.first_name and not post.author.last_name %}
+                                {{ post.author.username }}
+                            {% endif %}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </div>
+                    <div class="col-tags">
+                        {% if post.tags.all %}
+                            {% for tag in post.tags.all %}
+                                <a href="{% url 'blog:post_list' %}?q={{ tag.name }}" class="post-tag">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </div>
+                    <div class="col-date">
                         {{ post.created_at|date:"F j, Y" }}
                     </div>
                 </div>
@@ -54,12 +81,23 @@
         overflow: hidden;
     }
     
+    /* Header row styling */
+    .post-title-header {
+        display: grid;
+        grid-template-columns: minmax(200px, 3fr) minmax(100px, 1fr) minmax(100px, 1.5fr) minmax(120px, 1fr);
+        background-color: #f5f7fa;
+        font-weight: 600;
+        border-bottom: 2px solid #ddd;
+        padding: 0.75rem 1rem;
+    }
+    
+    /* Data row styling */
     .post-title-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 1.5rem;
+        display: grid;
+        grid-template-columns: minmax(200px, 3fr) minmax(100px, 1fr) minmax(100px, 1.5fr) minmax(120px, 1fr);
+        padding: 0.8rem 1rem;
         border-bottom: 1px solid #eee;
+        align-items: center;
         background-color: #fff;
     }
     
@@ -71,48 +109,83 @@
         background-color: #f9f9f9;
     }
     
-    .post-title {
+    /* Column styling */
+    .col-title a {
+        color: var(--primary-color);
+        text-decoration: none;
         font-weight: 500;
-        flex: 1;
-        margin-right: 2rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
     
-    .post-title a {
+    .col-title a:hover {
+        text-decoration: underline;
+    }
+    
+    .col-author {
+        font-size: 0.9rem;
+        color: #555;
+    }
+    
+    .col-tags {
+        font-size: 0.85rem;
+    }
+    
+    .col-date {
+        font-size: 0.85rem;
+        color: #777;
+        text-align: right;
+    }
+    
+    .post-tag {
         color: var(--primary-color);
         text-decoration: none;
     }
     
-    .post-title a:hover {
+    .post-tag:hover {
         text-decoration: underline;
     }
     
-    .post-date {
-        color: #888;
-        font-size: 0.9rem;
-        white-space: nowrap;
-        flex-shrink: 0;
-        text-align: right;
-        min-width: 120px;
-    }
-    
+    /* Responsive design for mobile */
     @media (max-width: 768px) {
+        .post-title-header {
+            display: none; /* Hide header on mobile */
+        }
+        
         .post-title-item {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 0.75rem 1rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-areas: 
+                "title"
+                "metadata";
+            gap: 0.5rem;
+            padding: 1rem;
         }
         
-        .post-title {
-            margin-right: 0;
-            margin-bottom: 0.5rem;
-            width: 100%;
+        .col-title {
+            grid-area: title;
+            margin-bottom: 0.3rem;
         }
         
-        .post-date {
-            width: 100%;
+        .col-author, .col-tags, .col-date {
+            grid-area: metadata;
+            font-size: 0.8rem;
             text-align: left;
+            display: inline-block;
+            margin-right: 1rem;
+        }
+        
+        .col-author::before {
+            content: "Author: ";
+            font-weight: 500;
+        }
+        
+        .col-tags::before {
+            content: "Tags: ";
+            font-weight: 500;
+        }
+        
+        .col-date::before {
+            content: "Date: ";
+            font-weight: 500;
         }
     }
 </style>
