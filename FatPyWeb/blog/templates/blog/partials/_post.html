@@ -1,0 +1,6 @@
+<div class="post">
+    <h2>{% if detail_view %} {{ post.title }} {% else %}<a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>{% endif %}</h2>
+    <p class="date">{{ post.created_at|date:"F j, Y" }}</p>
+    <a href="{% url 'post_edit' post.pk %}" class="edit-button">Edit</a>
+    <div class="post-content-frame">{{ post.content|safe }}</div>
+</div>

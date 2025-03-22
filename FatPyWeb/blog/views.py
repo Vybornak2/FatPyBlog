@@ -43,6 +43,12 @@ def process_markdown_content(content):
     return html_content
 
 
+def prepare_post_for_display(post):
+    """Prepare a post object for display by processing its markdown content"""
+    post.content = process_markdown_content(post.content)
+    return post
+
+
 def post_list(request):
     query = request.GET.get("q")
     if query:
@@ -51,8 +57,7 @@ def post_list(request):
         posts = Post.objects.all().order_by("-created_at")
 
     # Convert markdown to HTML for each post
-    for post in posts:
-        post.content = process_markdown_content(post.content)
+    posts = [prepare_post_for_display(post) for post in posts]
 
     context = {
         "posts": posts,
@@ -64,7 +69,7 @@ def post_list(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.content = process_markdown_content(post.content)
+    post = prepare_post_for_display(post)
     return render(request, "blog/post_detail.html", {"post": post})
 
 
@@ -80,6 +85,22 @@ def post_new(request):
             messages.error(request, "Please correct the errors below.")
     else:
         form = PostForm()
+    return render(request, "blog/post_edit.html", {"form": form})
+
+
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            messages.success(request, "Post updated successfully!")
+            return redirect("post_detail", pk=post.pk)
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = PostForm(instance=post)
     return render(request, "blog/post_edit.html", {"form": form})
 
 

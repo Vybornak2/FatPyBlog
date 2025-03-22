@@ -17,30 +17,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="post">
-    <h2>{{ post.title }}</h2>
-    <p class="date">{{ post.created_at|date:"F j, Y" }}</p>
-    <div class="post-content-frame">{{ post.content|safe }}</div>
-</div>
+    {% include "blog/partials/_post.html" with detail_view=True %}
 {% endblock %}
 
 {% block scripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const postImages = document.querySelectorAll('.post-content-frame img');
-        postImages.forEach(img => {
-            img.classList.add('md-image-override');
-            img.removeAttribute('width');
-            img.removeAttribute('height');
-            img.style.maxWidth = '100%';
-            img.style.height = 'auto';
-            
-            // Handle image loading error
-            img.addEventListener('error', function() {
-                this.src = '{% static "img/image-placeholder.png" %}';
-                this.alt = 'Image could not be loaded';
-            });
-        });
-    });
-</script>
+<script src="{% static 'js/post-images.js' %}"></script>
 {% endblock %}

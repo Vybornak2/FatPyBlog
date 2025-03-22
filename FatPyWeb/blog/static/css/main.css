@@ -15,6 +15,7 @@
     --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     --border-radius: 5px;
     --transition: all 0.3s ease;
+    --primary-color-dark: #1a2b70; /* Darker shade for hover states */
 }
 
 /* Base styles */
@@ -220,11 +221,40 @@ header nav li {
 }
 
 .post .date {
+    position: static;
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.edit-button {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    color: #888;
-    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;  /* Remove margin that could affect positioning */
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    background-color: var(--primary-dark);
+    color: var(--light-text);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
+    font-weight: 500;
+    z-index: 10; /* Ensure it's above other elements */
+}
+
+.edit-button:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .post-content-frame {
@@ -234,6 +264,24 @@ header nav li {
     background-color: var(--content-bg);
     overflow: hidden;
     word-wrap: break-word;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+/* Images in posts */
+.post-content-frame img, 
+img.md-image-override {
+    max-width: 100% !important;
+    width: auto;
+    height: auto !important;
+    display: block;
+    border-radius: var(--border-radius);
+    background-color: var(--content-bg);
+    overflow: hidden;
+    word-wrap: break-word;
+    object-fit: contain;
     width: 100%;
     box-sizing: border-box;
     margin-top: 1rem;
@@ -280,8 +328,8 @@ img.md-image-override {
 }
 
 .post-content-frame iframe, 
-.post-content-frame video,
-.post-content-frame embed,
+.post-content-frame video, 
+.post-content-frame embed, 
 .post-content-frame object {
     max-width: 100%;
     max-height: 500px;
@@ -371,6 +419,7 @@ form button:hover {
 }
 
 .benefits-list li {
+    line-height: 1.5;
     margin-bottom: 0.75rem;
     display: flex;
     align-items: center;
@@ -384,6 +433,7 @@ form button:hover {
 }
 
 .intro-text {
+    margin-bottom: 1rem;
     font-size: 1.1rem;
     margin-bottom: 1.5rem;
     line-height: 1.5;
@@ -448,7 +498,6 @@ footer p {
         flex-direction: column;
         padding: 0.5rem;
     }
-    
     header #branding {
         margin-bottom: 0.5rem;
         text-align: center;
@@ -465,20 +514,16 @@ footer p {
         justify-content: center;
         margin-top: 0.5rem;
     }
-    
     #main {
         padding: 1rem;
     }
-    
     .post {
         padding: 1rem;
     }
-    
     .post h2 {
         font-size: 1.5rem;
         padding-right: 80px; /* Space for date */
     }
-
     .post-content-frame {
         padding: 0.75rem;
     }
@@ -496,12 +541,12 @@ footer p {
 /* Loading spinner */
 .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
     border-left-color: var(--primary-color);
-    animation: spin 1s linear infinite;
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
     margin: 20px auto;
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
