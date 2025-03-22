@@ -1,0 +1,49 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Login - FatPyBlog{% endblock %}
+
+{% with page_subtitle="Login" %}
+{% block header_content %}
+{% include "blog/partials/_header_actions.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>Login</h2>
+    </div>
+    <div class="content-card-body">
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-error">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <div class="form-group mb-3">
+                {{ form.username.errors }}
+                <label for="{{ form.username.id_for_label }}">Username:</label>
+                {{ form.username }}
+            </div>
+            
+            <div class="form-group mb-3">
+                {{ form.password.errors }}
+                <label for="{{ form.password.id_for_label }}">Password:</label>
+                {{ form.password }}
+            </div>
+            
+            <div class="mt-4 d-grid">
+                <button type="submit" class="btn btn-primary btn-block mb-2">Login</button>
+            </div>
+            
+            <div class="auth-links text-center mt-3">
+                <p>Don't have an account? <a href="{% url 'blog:register' %}">Register</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% endwith %}

@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib import messages
-from .models import Post, Subscription
-from .forms import PostForm, SubscriptionForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from .models import Post, Subscription, UserProfile
+from .forms import PostForm, SubscriptionForm, LoginForm, RegisterForm, ProfileForm
 import markdown
 import re
 
@@ -146,3 +148,97 @@ def subscribe(request):
     else:
         form = SubscriptionForm()
     return render(request, "blog/subscribe.html", {"form": form})
+
+
+# Authentication Views
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('blog:post_list')
+        
+    if request.method == "POST":
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, f"Welcome back, {username}!")
+                # Redirect to the page the user was trying to access or default to home
+                next_page = request.GET.get('next', 'blog:post_list')
+                return redirect(next_page)
+        else:
+            messages.error(request, "Invalid username or password.")
+    else:
+        form = LoginForm()
+        
+    return render(request, 'blog/login.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
+    return redirect('blog:post_list')
+
+
+def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('blog:post_list')
+        
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            
+            # Explicitly create UserProfile after user is saved
+            try:
+                # Check if profile was automatically created by signals
+                profile = UserProfile.objects.filter(user=user).first()
+                if not profile:
+                    profile = UserProfile.objects.create(
+                        user=user,
+                        title=form.cleaned_data.get('title', ''),
+                        name=f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
+                    )
+                    
+                # Handle newsletter subscription
+                if form.cleaned_data.get('subscribe'):
+                    email = form.cleaned_data.get('email')
+                    if not Subscription.objects.filter(email=email).exists():
+                        Subscription.objects.create(email=email)
+                        
+            except Exception as e:
+                # Log the error but continue (the user is still created)
+                print(f"Error creating user profile: {e}")
+                
+            login(request, user)
+            messages.success(request, "Registration successful!")
+            return redirect('blog:post_list')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = RegisterForm()
+        
+    return render(request, 'blog/register.html', {'form': form})
+
+
+@login_required(login_url='blog:login')
+def profile_view(request):
+    user = request.user
+    try:
+        profile = user.profile
+    except UserProfile.DoesNotExist:
+        profile = UserProfile.objects.create(user=user)
+        
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=profile, user=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your profile has been updated successfully!")
+            return redirect('blog:profile')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = ProfileForm(instance=profile, user=user)
+        
+    return render(request, 'blog/profile.html', {'form': form})

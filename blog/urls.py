@@ -11,4 +11,10 @@ urlpatterns = [
     path("post/<int:pk>/delete/", views.post_delete, name="post_delete"),
     path("subscribe/", views.subscribe, name="subscribe"),
     path("post/list/", views.post_titles_list, name="post_titles_list"),
+    
+    # Authentication URLs
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
+    path("register/", views.register_view, name="register"),
+    path("profile/", views.profile_view, name="profile"),
 ]

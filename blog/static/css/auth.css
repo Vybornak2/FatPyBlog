@@ -1,0 +1,76 @@
+/* Authentication and Profile Styles */
+.auth-form,
+.profile-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+.auth-links {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.auth-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.password-change-section {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+    border: 1px solid #e9ecef;
+}
+
+/* Disable styling for fields that can't be changed */
+input[disabled] {
+    background-color: #e9ecef;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.form-text {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+/* Avatar section in profile if needed */
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1rem;
+    display: block;
+    border: 3px solid var(--primary-light);
+}
+
+.profile-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-username {
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.profile-email {
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Menu dropdown divider styling */
+.dropdown-divider {
+    margin: 0.5rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}

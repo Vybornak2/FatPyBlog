@@ -1,0 +1,129 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}My Profile - FatPyBlog{% endblock %}
+
+{% with page_subtitle="My Profile" %}
+{% block header_content %}
+{% include "blog/partials/_header_actions.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>My Profile</h2>
+    </div>
+    <div class="content-card-body">
+        <form method="post" class="profile-form">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-error">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <div class="form-group mb-3">
+                <label for="id_username">Username:</label>
+                <input type="text" id="id_username" class="form-control" value="{{ user.username }}" disabled>
+                <small class="form-text text-muted">Username cannot be changed.</small>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group mb-3">
+                        {{ form.title.errors }}
+                        <label for="{{ form.title.id_for_label }}">Title:</label>
+                        {{ form.title }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group mb-3">
+                        {{ form.first_name.errors }}
+                        <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+                        {{ form.first_name }}
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group mb-3">
+                        {{ form.last_name.errors }}
+                        <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group mb-3">
+                {{ form.email.errors }}
+                <label for="{{ form.email.id_for_label }}">Email:</label>
+                {{ form.email }}
+            </div>
+            
+            <div class="mt-4">
+                <h3 class="h5 mb-3">Password Management</h3>
+                <p class="text-muted">To change your password, use the button below:</p>
+                <a href="#" class="btn btn-outline-primary" id="changePasswordBtn">Change Password</a>
+            </div>
+            
+            <div class="password-change-section mt-3" id="passwordChangeSection" style="display: none;">
+                <div class="form-group mb-3">
+                    <label for="current_password">Current Password:</label>
+                    <input type="password" id="current_password" name="current_password" class="form-control">
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label for="new_password1">New Password:</label>
+                    <input type="password" id="new_password1" name="new_password1" class="form-control">
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label for="new_password2">Confirm New Password:</label>
+                    <input type="password" id="new_password2" name="new_password2" class="form-control">
+                </div>
+            </div>
+            
+            <div class="mt-4 d-grid">
+                <button type="submit" class="btn btn-primary btn-block mb-2">Save Changes</button>
+                <a href="{% url 'blog:post_list' %}" class="btn btn-secondary btn-block">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% endwith %}
+
+{% block extra_head %}
+<style>
+    .profile-form .form-text {
+        font-size: 0.8rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const changePasswordBtn = document.getElementById('changePasswordBtn');
+        const passwordChangeSection = document.getElementById('passwordChangeSection');
+        
+        changePasswordBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (passwordChangeSection.style.display === 'none') {
+                passwordChangeSection.style.display = 'block';
+                changePasswordBtn.textContent = 'Cancel Password Change';
+                changePasswordBtn.classList.replace('btn-outline-primary', 'btn-outline-secondary');
+            } else {
+                passwordChangeSection.style.display = 'none';
+                changePasswordBtn.textContent = 'Change Password';
+                changePasswordBtn.classList.replace('btn-outline-secondary', 'btn-outline-primary');
+                // Clear password fields
+                document.getElementById('current_password').value = '';
+                document.getElementById('new_password1').value = '';
+                document.getElementById('new_password2').value = '';
+            }
+        });
+    });
+</script>
+{% endblock %}
