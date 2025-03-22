@@ -20,6 +20,15 @@
         font-size: 0.8rem;
         color: #888;
     }
+    .cache-warning {
+        background-color: #fff3cd;
+        color: #856404;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ffeeba;
+        border-radius: 0.25rem;
+        display: none;
+    }
 </style>
 {% endblock %}
 
@@ -34,6 +43,10 @@
         <h2>{% if form.instance.pk %}Edit Post{% else %}Create New Post{% endif %}</h2>
     </div>
     <div class="card-body">
+        <div class="cache-warning" id="cache-warning">
+            <strong>Unsaved changes detected!</strong> We found a draft of your post in your browser storage.
+            <button type="button" class="btn btn-sm btn-warning ms-2" id="clear-cache-btn">Discard Draft</button>
+        </div>
         <form method="post">
             {% csrf_token %}
             {% include "blog/partials/_post_form.html" with form=form %}
@@ -47,12 +60,18 @@
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Use a different uniqueId for each post
+        const postId = {% if form.instance.pk %}{{ form.instance.pk }}{% else %}"new"{% endif %};
+        const storageKey = "post_editor_" + postId;
+        
+        const originalContent = {% if form.instance.pk %}"{{ form.instance.content|escapejs }}"{% else %}""{% endif %};
+        
         var simplemde = new SimpleMDE({ 
             element: document.getElementById("id_content"),
             spellChecker: false,
             autosave: {
                 enabled: true,
-                uniqueId: "post_editor",
+                uniqueId: storageKey,
                 delay: 1000,
             },
             toolbar: [
@@ -73,6 +92,47 @@
             },
             status: ["autosave", "lines", "words"]
         });
+        
+        // Check if there's a saved draft different from the original content
+        const savedContent = localStorage.getItem(storageKey + "-content");
+        const cacheWarning = document.getElementById('cache-warning');
+        
+        if (savedContent && savedContent !== originalContent) {
+            cacheWarning.style.display = 'block';
+        }
+        
+        // Clear cache button
+        const clearCacheBtn = document.getElementById('clear-cache-btn');
+        if (clearCacheBtn) {
+            clearCacheBtn.addEventListener('click', function() {
+                localStorage.removeItem(storageKey + "-content");
+                localStorage.removeItem(storageKey + "-smde-autosave");
+                
+                if (originalContent) {
+                    simplemde.value(originalContent);
+                } else {
+                    simplemde.value("");
+                }
+                
+                cacheWarning.style.display = 'none';
+            });
+        }
+        
+        // Clear cache when the form is submitted
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function() {
+            localStorage.removeItem(storageKey + "-content");
+            localStorage.removeItem(storageKey + "-smde-autosave");
+        });
+        
+        // Handle cancel button - clear cache for new posts
+        const cancelBtn = document.querySelector('a.btn-secondary');
+        if (cancelBtn && postId === "new") {
+            cancelBtn.addEventListener('click', function() {
+                localStorage.removeItem(storageKey + "-content");
+                localStorage.removeItem(storageKey + "-smde-autosave");
+            });
+        }
     });
 </script>
 {% endblock %}
