@@ -1,0 +1,10 @@
+<div class="content-card">
+    {% if title %}
+    <div class="content-card-header">
+        <h2>{{ title }}</h2>
+    </div>
+    {% endif %}
+    <div class="content-card-body">
+        {{ content|safe }}
+    </div>
+</div>

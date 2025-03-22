@@ -52,7 +52,7 @@ def prepare_post_for_display(post):
 def post_list(request):
     query = request.GET.get("q")
     if query:
-        posts = Post.objects.filter(title__icontains=query).order_by("-created_at")
+        posts = Post.objects.filter(title__icontains(query).order_by("-created_at"))
     else:
         posts = Post.objects.all().order_by("-created_at")
 
@@ -85,7 +85,11 @@ def post_new(request):
             messages.error(request, "Please correct the errors below.")
     else:
         form = PostForm()
-    return render(request, "blog/post_edit.html", {"form": form})
+    
+    # Render the form content separately
+    form_content = render(request, "blog/partials/_form_content.html", {"form": form}).content.decode('utf-8')
+    
+    return render(request, "blog/post_edit.html", {"form": form, "form_content": form_content})
 
 
 def post_edit(request, pk):
@@ -101,7 +105,11 @@ def post_edit(request, pk):
             messages.error(request, "Please correct the errors below.")
     else:
         form = PostForm(instance=post)
-    return render(request, "blog/post_edit.html", {"form": form})
+    
+    # Render the form content separately
+    form_content = render(request, "blog/partials/_form_content.html", {"form": form}).content.decode('utf-8')
+    
+    return render(request, "blog/post_edit.html", {"form": form, "form_content": form_content})
 
 
 def post_delete(request, pk):
@@ -113,7 +121,10 @@ def post_delete(request, pk):
         messages.success(request, "Post deleted successfully!")
         return redirect("blog:post_list")
 
-    return render(request, "blog/post_delete.html", {"post": post})
+    # Render the delete content separately
+    delete_content = render(request, "blog/partials/_delete_content.html", {"post": post}).content.decode('utf-8')
+    
+    return render(request, "blog/post_delete.html", {"post": post, "delete_content": delete_content})
 
 
 def subscribe(request):

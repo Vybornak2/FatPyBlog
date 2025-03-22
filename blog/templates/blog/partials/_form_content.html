@@ -1,0 +1,8 @@
+<div class="cache-warning" id="cache-warning">
+    <strong>Unsaved changes detected!</strong> We found a draft of your post in your browser storage.
+    <button type="button" class="btn btn-sm btn-warning ms-2" id="clear-cache-btn">Discard Draft</button>
+</div>
+<form method="post">
+    {% csrf_token %}
+    {% include "blog/partials/_post_form.html" with form=form %}
+</form>
