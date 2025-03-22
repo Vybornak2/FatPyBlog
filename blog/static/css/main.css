@@ -34,6 +34,7 @@ body {
     margin: 0 auto;
     overflow: hidden;
     box-sizing: border-box;
+    overflow: visible; /* Ensure container doesn't clip dropdowns */
 }
 
 /* Typography */
@@ -64,6 +65,7 @@ header {
     height: 80px; /* Fixed height for consistency */
     display: flex;
     align-items: center;
+    overflow: visible !important; /* Ensure dropdowns can extend beyond header */
 }
 
 header .container {
@@ -72,6 +74,7 @@ header .container {
     justify-content: space-between;
     flex-wrap: wrap;
     height: 100%;
+    overflow: visible !important; /* Allow dropdown to extend beyond container */
 }
 
 header a {
@@ -584,6 +587,10 @@ footer p {
         position: static;
         margin-top: 0.2rem;
     }
+    
+    .nav-menu {
+        margin-left: auto;
+    }
 }
 
 /* Loading spinner */
@@ -604,4 +611,107 @@ footer p {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* Hamburger Menu Styles */
+.nav-menu {
+    margin-left: 0.5rem;
+    position: relative;
+}
+
+.menu-toggle {
+    background: transparent !important;
+    border: none !important;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.menu-toggle::after {
+    display: none !important;
+}
+
+/* Hamburger icon */
+.hamburger-icon {
+    width: 20px;
+    height: 14px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger-icon .line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    border-radius: 2px;
+}
+
+/* Basic dropdown styling */
+.nav-menu .dropdown-menu {
+    min-width: 180px !important;
+    margin-top: 0.5rem !important;
+    padding: 0.4rem !important; /* Added padding to the container */
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    border-radius: 10px !important; /* Slightly more rounded corners */
+    overflow: hidden !important;
+}
+
+/* Menu items - Fixed styling to prevent overflow */
+.nav-menu .dropdown-item {
+    padding: 0.7rem 1rem !important; /* Increased horizontal padding */
+    font-size: 0.95rem !important;
+    color: var(--text-color) !important;
+    background-color: #fff !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    border-left: 3px solid transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0.2rem 0 !important; /* Added vertical margin between items */
+    white-space: nowrap !important;
+    border-radius: 6px !important; /* Rounded corners on menu items */
+}
+
+.nav-menu .dropdown-item svg {
+    flex-shrink: 0 !important; /* Prevent icon from shrinking */
+    margin-right: 0.5rem !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.nav-menu .dropdown-item:hover {
+    background-color: #f4f7ff !important;
+    color: var(--primary-color) !important;
+    border-left-color: var(--primary-color) !important;
+}
+
+.nav-menu .dropdown-item:not(:last-child) {
+    border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+}
+
+/* Add this to ensure proper dropdown placement */
+.dropdown-menu-end {
+    --bs-position: end;
+}
+
+/* Control dropdown positioning with JavaScript */
+.nav-menu.show .dropdown-menu {
+    display: block !important;
 }
