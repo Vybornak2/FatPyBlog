@@ -13,16 +13,18 @@
 
 {% block content %}
 <div class="card">
-    <div class="card-body">
+    <div class="card-header">
         <h2>Confirm Deletion</h2>
+    </div>
+    <div class="card-body">
         <p>Are you sure you want to delete the post "{{ post.title }}"?</p>
         <p class="text-muted">This action cannot be undone.</p>
         
         <form method="post">
             {% csrf_token %}
-            <div class="mt-4">
-                <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-secondary">Cancel</a>
+            <div class="mt-4 d-grid">
+                <button type="submit" class="btn btn-danger btn-block mb-2">Yes, Delete</button>
+                <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-secondary btn-block">Cancel</a>
             </div>
         </form>
     </div>
