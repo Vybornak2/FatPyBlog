@@ -32,6 +32,7 @@
         {% endif %}
     </div>
     
+    {% if is_editor %}
     <div class="post-actions dropdown">
         <button class="dropdown-toggle" type="button" id="post-actions-{{ post.id }}" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Post options">
             <div class="vertical-dots">
@@ -45,6 +46,7 @@
             <li><a class="dropdown-item text-danger" href="{% url 'blog:post_delete' post.pk %}">Delete</a></li>
         </ul>
     </div>
+    {% endif %}
     
     <div class="post-content-frame">{{ post.content|safe }}</div>
 </div>

@@ -29,7 +29,9 @@
             {% empty %}
                 <div class="empty-state">
                     <p>No posts available yet.</p>
+                    {% if is_editor %}
                     <a href="{% url 'blog:post_new' %}" class="btn">Create New Post</a>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

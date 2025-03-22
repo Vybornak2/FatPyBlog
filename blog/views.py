@@ -8,6 +8,7 @@ from .models import Post, Subscription, UserProfile, Tag
 from .forms import PostForm, SubscriptionForm, LoginForm, RegisterForm, ProfileForm
 import markdown
 import re
+from .decorators import editor_required
 
 
 def process_markdown_content(content):
@@ -63,7 +64,7 @@ def post_full_list(request):
                 | Q(author__username__icontains=query)
                 | Q(author__first_name__icontains=query)
                 | Q(author__last_name__icontains=query)
-                | Q(tags__name__icontains=query)
+                | Q(tags__name__icontains=query)  # Fixed: changed () to =
             )
             .distinct()
             .order_by("-created_at")
@@ -94,7 +95,7 @@ def post_detail(request, pk):
     return render(request, "blog/post_detail.html", {"post": post})
 
 
-@login_required(login_url="blog:login")
+@editor_required
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST, user=request.user)
@@ -117,7 +118,7 @@ def post_new(request):
     )
 
 
-@login_required(login_url="blog:login")
+@editor_required
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
 
@@ -147,7 +148,7 @@ def post_edit(request, pk):
     )
 
 
-@login_required(login_url="blog:login")
+@editor_required
 def post_delete(request, pk):
     """Delete a post."""
     post = get_object_or_404(Post, pk=pk)

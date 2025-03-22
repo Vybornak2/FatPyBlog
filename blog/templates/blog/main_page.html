@@ -32,8 +32,12 @@
     {% empty %}
         {% if not no_results %}
         <div class="empty-state">
-            <p>No posts available yet. Be the first to create one!</p>
-            <a href="{% url 'blog:post_new' %}" class="btn">Create New Post</a>
+            <p>No posts available yet.
+            {% if is_editor %}
+                Be the first to create one!
+                <a href="{% url 'blog:post_new' %}" class="btn">Create New Post</a>
+            {% endif %}
+            </p>
         </div>
         {% endif %}
     {% endfor %}

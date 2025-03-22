@@ -29,6 +29,7 @@
                     Post List
                 </a>
             </li>
+            {% if is_editor %}
             <li>
                 <a class="dropdown-item" href="{% url 'blog:post_new' %}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus me-2" viewBox="0 0 16 16">
@@ -38,6 +39,7 @@
                     New Post
                 </a>
             </li>
+            {% endif %}
         </ul>
     </div>
     
