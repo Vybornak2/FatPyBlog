@@ -1,207 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}FatPyWeb{% endblock %}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f4ff; /* Lighter background color */
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            max-width: 1200px; /* Add maximum width for consistency */
-            box-sizing: border-box;
-        }
-        header {
-            background: #233a8f; /* Specified header color */
-            color: #fff;
-            padding-top: 20px;
-            padding-bottom: 20px;
-            border-bottom: #1a2a6c 3px solid;
-            width: 100%;
-        }
-        header .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0; /* Remove padding inside the header container */
-        }
-        header a {
-            color: #fff;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 16px;
-        }
-        header ul {
-            padding: 0;
-            list-style: none;
-            margin: 0;
-        }
-        header li {
-            float: left;
-            display: inline;
-            padding: 0 20px 0 20px;
-        }
-        header #branding {
-            flex: 0 0 auto;
-        }
-        header #branding h1 {
-            margin: 0;
-        }
-        header nav {
-            flex: 0 0 auto;
-        }
-        .header-actions {
-            flex: 1 0 auto;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0 20px;
-        }
-        .header-actions form {
-            display: flex;
-            align-items: center;
-            margin: 0;
-            width: auto;
-            flex-direction: row;
-        }
-        .header-actions input[type="text"] {
-            padding: 5px;
-            font-size: 14px;
-            border: none;
-            border-radius: 3px;
-            width: 200px;
-            height: 28px;
-            margin: 0;
-        }
-        .header-actions button {
-            padding: 5px 10px;
-            font-size: 14px;
-            background-color: #1a2a6c;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            text-decoration: none;
-            margin-left: 5px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-        }
-        .header-actions button:hover {
-            background-color: #0f1e4d;
-        }
-        .header-buttons {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-        }
-        .header-buttons a {
-            display: inline-flex;
-            margin-left: 10px;
-            padding: 5px 10px;
-            font-size: 14px;
-            background-color: #1a2a6c;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            text-decoration: none;
-            height: 18px;
-            align-items: center;
-            justify-content: center;
-        }
-        .header-buttons a:hover {
-            background-color: #0f1e4d;
-        }
-        #main {
-            background: #fff;
-            margin-top: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 100%; /* Ensure full width of container */
-            box-sizing: border-box; /* Include padding in width calculation */
-        }
-        .post {
-            background: #fff;
-            border: 1px solid #ddd;
-            padding: 20px;
-            margin-bottom: 20px;
-            position: relative;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .post h2 {
-            margin-top: 0;
-            color: #333;
-            font-size: 2em;
-        }
-        .post .date {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: #888;
-            font-size: 0.9em;
-        }
-        .post-content-frame {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .post-content-frame > *:first-child {
-            margin-top: 0;
-            padding-top: 0;
-        }
-        #main form {
-            display: flex;
-            flex-direction: column;
-        }
-        #main form label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        #main form input, #main form textarea, #main form button {
-            margin-bottom: 15px;
-            padding: 10px;
-            font-size: 1em;
-            width: 100%;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        #main form button {
-            background-color: #233a8f; /* Specified button color */
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        #main form button:hover {
-            background-color: #1a2a6c;
-        }
-        #page-wrapper {
-            width: 100%;
-        }
-        footer {
-            background: #233a8f; /* Specified footer color */
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-            margin-top: 20px;
-            width: 100%;
-        }
-        footer .container {
-            text-align: center;
-        }
-        {% block additional_styles %}{% endblock %}
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -216,12 +21,21 @@
         </header>
         <div class="container">
             <div id="main">
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 {% block content %}{% endblock %}
             </div>
         </div>
         <footer>
             <div class="container">
-                <p>FatPyWeb &copy; 2025</p>
+                <p>FatPyWeb &copy; {% now "Y" %}</p>
             </div>
         </footer>
     </div>

@@ -10,6 +10,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Blog Post"
+        verbose_name_plural = "Blog Posts"
+
 
 class Subscription(models.Model):
     email = models.EmailField(unique=True)
@@ -17,3 +22,8 @@ class Subscription(models.Model):
 
     def __str__(self):
         return self.email
+
+    class Meta:
+        ordering = ["-subscribed_at"]
+        verbose_name = "Email Subscription"
+        verbose_name_plural = "Email Subscriptions"

@@ -6,6 +6,15 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ["title", "content"]
+        widgets = {
+            "title": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter post title",
+                    "required": True,
+                }
+            ),
+        }
 
 
 class SubscriptionForm(forms.ModelForm):
@@ -23,3 +32,11 @@ class SubscriptionForm(forms.ModelForm):
     class Meta:
         model = Subscription
         fields = ["email"]
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if email:
+            email = email.lower()
+            if Subscription.objects.filter(email=email).exists():
+                raise forms.ValidationError("This email is already subscribed.")
+        return email

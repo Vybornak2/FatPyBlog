@@ -1,9 +1,33 @@
 {% extends "blog/base.html" %}
+{% load static %}
 
 {% block title %}New Post - FatPyWeb{% endblock %}
 
 {% block extra_head %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<style>
+    .CodeMirror {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        height: 400px;
+    }
+    .editor-toolbar {
+        border: 1px solid #ddd;
+        border-radius: 5px 5px 0 0;
+        border-bottom: none;
+    }
+    .editor-statusbar {
+        font-size: 0.8rem;
+        color: #888;
+    }
+    .markdown-hint {
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        border-left: 3px solid #233a8f;
+    }
+</style>
 {% endblock %}
 
 {% block header_title %}New Post{% endblock %}
@@ -17,20 +41,63 @@
 {% block content %}
 <form method="post">
     {% csrf_token %}
-    {{ form.non_field_errors }}
-    {{ form.title.errors }}
-    <label for="id_title">Title:</label>
-    {{ form.title }}
-    {{ form.content.errors }}
-    <label for="id_content">Content:</label>
-    <textarea id="id_content" name="content">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
-    <button type="submit">Save</button>
+    {% if form.non_field_errors %}
+        <div class="alert alert-error">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+    
+    <div class="form-group">
+        {{ form.title.errors }}
+        <label for="id_title">Title:</label>
+        {{ form.title }}
+    </div>
+    
+    <div class="form-group">
+        {{ form.content.errors }}
+        <label for="id_content">Content:</label>
+        <textarea id="id_content" name="content">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
+    </div>
+    
+    <div class="markdown-hint">
+        <strong>Tip:</strong> You can add images using Markdown syntax: <code>![Image description](image URL)</code><br>
+        Images will automatically be resized to fit the post width while maintaining their aspect ratio.
+    </div>
+    
+    <button type="submit">Save Post</button>
 </form>
 {% endblock %}
 
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <script>
-    var simplemde = new SimpleMDE({ element: document.getElementById("id_content") });
+    document.addEventListener('DOMContentLoaded', function() {
+        var simplemde = new SimpleMDE({ 
+            element: document.getElementById("id_content"),
+            spellChecker: false,
+            autosave: {
+                enabled: true,
+                uniqueId: "post_editor",
+                delay: 1000,
+            },
+            toolbar: [
+                "bold", "italic", "heading", "|", 
+                "quote", "code", "unordered-list", "ordered-list", "|",
+                "link", "image", "table", "|",
+                "preview", "side-by-side", "fullscreen", "|",
+                {
+                    name: "guide",
+                    action: "https://www.markdownguide.org/basic-syntax/",
+                    className: "fa fa-question-circle",
+                    title: "Markdown Guide",
+                }
+            ],
+            placeholder: "Write your post content here using Markdown...",
+            renderingConfig: {
+                codeSyntaxHighlighting: true,
+            },
+            status: ["autosave", "lines", "words"]
+        });
+    });
 </script>
 {% endblock %}
