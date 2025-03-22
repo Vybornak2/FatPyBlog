@@ -9,8 +9,6 @@
 {% endblock %}
 
 {% block content %}
-{% with title="Confirm Deletion" content="<p>Are you sure you want to delete the post \"{{ post.title }}\"?</p><p class=\"text-muted\">This action cannot be undone.</p><form method=\"post\">{% csrf_token %}<div class=\"mt-4 d-grid\"><button type=\"submit\" class=\"btn btn-danger btn-block mb-2\">Yes, Delete</button><a href=\"{% url 'blog:post_detail' post.pk %}\" class=\"btn btn-secondary btn-block\">Cancel</a></div></form>" %}
-{% include "blog/partials/_content_frame.html" with content=delete_content|default:"" %}
-{% endwith %}
+{% include "blog/partials/_content_frame.html" with title="Confirm Deletion" content=delete_content|default:"" %}
 {% endblock %}
 {% endwith %}
