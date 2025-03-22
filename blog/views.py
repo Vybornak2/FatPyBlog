@@ -49,10 +49,11 @@ def prepare_post_for_display(post):
     return post
 
 
-def post_list(request):
+def post_full_list(request):
+    """View to display all posts with full content (main page)."""
     query = request.GET.get("q")
     if query:
-        posts = Post.objects.filter(title__icontains(query).order_by("-created_at"))
+        posts = Post.objects.filter(title__icontains(query)).order_by("-created_at")
     else:
         posts = Post.objects.all().order_by("-created_at")
 
@@ -64,7 +65,13 @@ def post_list(request):
         "query": query,
         "no_results": query and not posts,
     }
-    return render(request, "blog/post_list.html", context)
+    return render(request, "blog/main_page.html", context)
+
+
+def post_titles_list(request):
+    """View to display a list of all posts titles and dates only."""
+    posts = Post.objects.all().order_by('-created_at')
+    return render(request, "blog/post_list.html", {"posts": posts})
 
 
 def post_detail(request, pk):
