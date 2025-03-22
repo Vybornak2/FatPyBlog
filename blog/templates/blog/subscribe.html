@@ -14,6 +14,24 @@
     #main {
         text-align: center;
     }
+    
+    .field-error-text {
+        color: #dc3545;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+        text-align: left;
+        display: block;
+    }
+    
+    .alert-error {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.25rem;
+        margin-bottom: 1.5rem;
+        text-align: left;
+    }
 </style>
 {% endblock %}
 
@@ -33,19 +51,35 @@
 <h3>Subscriber Benefits:</h3>
 <ul class="benefits-list">
     <li>Get notified about new blog posts immediately</li>
-    <li>Receive exclusive content available only to subscribers</li>
     <li>Stay updated with the latest developments and news</li>
     <li>Unsubscribe anytime with a single click</li>
 </ul>
 
 <div class="subscription-form">
     <h3 class="form-title">Subscribe to Our Newsletter</h3>
+    
+    {% if form.errors %}
+    <div class="alert alert-error">
+        <h5 class="alert-heading">Please correct the following errors:</h5>
+        <ul class="error-list mb-0">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
     <form method="post" id="subscription-form">
         {% csrf_token %}
         <div class="form-field">
             {{ form.email }}
             {% if form.email.errors %}
-                <div class="error-message">{{ form.email.errors }}</div>
+                <div class="field-error-text">{{ form.email.errors.0 }}</div>
             {% endif %}
         </div>
         <button type="submit" id="subscribe-button">Subscribe</button>

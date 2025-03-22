@@ -218,6 +218,7 @@ def subscribe(request):
 def unsubscribe(request):
     # Get email from either query params or POST data
     email = request.GET.get("email") or ""
+    email_error = None
 
     if request.method == "POST":
         email = request.POST.get("email")
@@ -227,9 +228,11 @@ def unsubscribe(request):
             messages.success(request, "You have been unsubscribed successfully.")
             return redirect("blog:post_list")
         except Subscription.DoesNotExist:
-            messages.error(request, "This email is not in our subscription list.")
+            email_error = "This email is not in our subscription list."
 
-    return render(request, "blog/unsubscribe.html", {"email": email})
+    return render(
+        request, "blog/unsubscribe.html", {"email": email, "email_error": email_error}
+    )
 
 
 # Authentication Views

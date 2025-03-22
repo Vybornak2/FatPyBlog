@@ -14,25 +14,25 @@
         <h2>Login</h2>
     </div>
     <div class="content-card-body">
+        {% include "blog/partials/_form_errors.html" %}
+        
         <form method="post" class="auth-form">
             {% csrf_token %}
             
-            {% if form.non_field_errors %}
-                <div class="alert alert-error">
-                    {{ form.non_field_errors }}
-                </div>
-            {% endif %}
-            
             <div class="form-group mb-3">
-                {{ form.username.errors }}
                 <label for="{{ form.username.id_for_label }}">Username:</label>
                 {{ form.username }}
+                {% if form.username.errors %}
+                <div class="field-error-text">{{ form.username.errors.0 }}</div>
+                {% endif %}
             </div>
             
             <div class="form-group mb-3">
-                {{ form.password.errors }}
                 <label for="{{ form.password.id_for_label }}">Password:</label>
                 {{ form.password }}
+                {% if form.password.errors %}
+                <div class="field-error-text">{{ form.password.errors.0 }}</div>
+                {% endif %}
             </div>
             
             <div class="mt-4 d-grid">
@@ -47,3 +47,25 @@
 </div>
 {% endblock %}
 {% endwith %}
+
+{% block extra_head %}
+<style>
+    .field-error-text {
+        color: #dc3545;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+    }
+    
+    .alert-error {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.25rem;
+    }
+    
+    .error-list {
+        padding-left: 1.25rem;
+    }
+</style>
+{% endblock %}

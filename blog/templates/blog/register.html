@@ -14,64 +14,74 @@
         <h2>Register</h2>
     </div>
     <div class="content-card-body">
+        {% include "blog/partials/_form_errors.html" %}
+        
         <form method="post" class="auth-form">
             {% csrf_token %}
-            
-            {% if form.non_field_errors %}
-                <div class="alert alert-error">
-                    {{ form.non_field_errors }}
-                </div>
-            {% endif %}
             
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group mb-3">
-                        {{ form.title.errors }}
                         <label for="{{ form.title.id_for_label }}">Title:</label>
                         {{ form.title }}
+                        {% if form.title.errors %}
+                        <div class="field-error-text">{{ form.title.errors.0 }}</div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group mb-3">
-                        {{ form.first_name.errors }}
                         <label for="{{ form.first_name.id_for_label }}">First Name:</label>
                         {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                        <div class="field-error-text">{{ form.first_name.errors.0 }}</div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="form-group mb-3">
-                        {{ form.last_name.errors }}
                         <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
                         {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                        <div class="field-error-text">{{ form.last_name.errors.0 }}</div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
             
             <div class="form-group mb-3">
-                {{ form.username.errors }}
                 <label for="{{ form.username.id_for_label }}">Username:</label>
                 {{ form.username }}
+                {% if form.username.errors %}
+                <div class="field-error-text">{{ form.username.errors.0 }}</div>
+                {% endif %}
             </div>
             
             <div class="form-group mb-3">
-                {{ form.email.errors }}
                 <label for="{{ form.email.id_for_label }}">Email:</label>
                 {{ form.email }}
+                {% if form.email.errors %}
+                <div class="field-error-text">{{ form.email.errors.0 }}</div>
+                {% endif %}
             </div>
             
             <div class="form-group mb-3">
-                {{ form.password1.errors }}
                 <label for="{{ form.password1.id_for_label }}">Password:</label>
                 {{ form.password1 }}
+                {% if form.password1.errors %}
+                <div class="field-error-text">{{ form.password1.errors.0 }}</div>
+                {% endif %}
                 <small class="form-text text-muted">
                     Your password must be at least 8 characters long and can't be entirely numeric.
                 </small>
             </div>
             
             <div class="form-group mb-3">
-                {{ form.password2.errors }}
                 <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
                 {{ form.password2 }}
+                {% if form.password2.errors %}
+                <div class="field-error-text">{{ form.password2.errors.0 }}</div>
+                {% endif %}
             </div>
             
             <div class="form-group mb-3">
@@ -122,6 +132,24 @@
     
     .form-check-label {
         margin-left: 0.25rem;
+    }
+    
+    .field-error-text {
+        color: #dc3545;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+    }
+    
+    .alert-error {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.25rem;
+    }
+    
+    .error-list {
+        padding-left: 1.25rem;
     }
 </style>
 {% endblock %}
