@@ -1,59 +1,48 @@
-{% extends "base.html" %}
+{% extends "blog/base.html" %}
+{% load static %}
 
-{% block title %}Blog Posts{% endblock %}
+{% block title %}FatPyBlog{% endblock %}
+
+{% block header_title %}FatPyBlog{% endblock %}
+
+{% block header_content %}
+<nav>
+    <ul>
+        <!-- Navigation items if needed -->
+    </ul>
+</nav>
+<div class="header-actions">
+    <form method="get" action="{% url 'blog:post_list' %}">
+        <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}">
+        <button type="submit">Search</button>
+    </form>
+</div>
+<div class="header-buttons">
+    <a href="{% url 'blog:post_new' %}">New Post</a>
+    <a href="{% url 'blog:subscribe' %}">Subscribe</a>
+</div>
+{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8">
-        <h1>Blog Posts</h1>
-        
-        {% if posts %}
-            {% for post in posts %}
-                <div class="card mb-4">
-                    {% if post.featured_image %}
-                        <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h2 class="card-title">{{ post.title }}</h2>
-                        <p class="text-muted">
-                            {{ post.publish|date:"F d, Y" }} by {{ post.author.username }} in 
-                            <a href="{% url 'blog:category_detail' post.category.slug %}">{{ post.category.name }}</a>
-                        </p>
-                        <p class="card-text">{{ post.content|truncatewords:50|linebreaks }}</p>
-                        <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More</a>
-                    </div>
-                </div>
-            {% endfor %}
-            
-            {% if is_paginated %}
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        {% if page_obj.has_previous %}
-                            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
-                        {% endif %}
-                        
-                        <li class="page-item disabled"><a class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
-                        
-                        {% if page_obj.has_next %}
-                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            {% endif %}
-        {% else %}
-            <p>No posts available yet.</p>
-        {% endif %}
+    {% if no_results %}
+    <div class="alert alert-error">
+        <p>No posts found matching "<strong>{{ query }}</strong>".</p>
+        <a href="{% url 'blog:post_list' %}" class="btn">View all posts</a>
     </div>
+    {% endif %}
     
-    <div class="col-md-4">
-        <div class="card mb-4">
-            <div class="card-header">About</div>
-            <div class="card-body">
-                <p>This is a blog built with Django. Feel free to explore and read the posts.</p>
-            </div>
+    {% for post in posts %}
+        {% include "blog/partials/_post.html" with detail_view=False %}
+    {% empty %}
+        {% if not no_results %}
+        <div class="empty-state">
+            <p>No posts available yet. Be the first to create one!</p>
+            <a href="{% url 'blog:post_new' %}" class="btn">Create New Post</a>
         </div>
-    </div>
-</div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/post-images.js' %}"></script>
 {% endblock %}

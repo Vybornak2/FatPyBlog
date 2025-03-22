@@ -1,43 +1,25 @@
-{% extends "base.html" %}
+{% extends "blog/base.html" %}
+{% load static %}
 
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}{{ post.title }} - FatPyBlog{% endblock %}
+
+{% block header_title %}{{ post.title }}{% endblock %}
+
+{% block header_content %}
+<nav>
+    <ul>
+        <!-- Navigation items if needed -->
+    </ul>
+</nav>
+<div class="header-buttons">
+    <a href="{% url 'blog:post_list' %}">Return to posts</a>
+</div>
+{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8">
-        <article>
-            <header>
-                <h1>{{ post.title }}</h1>
-                <p class="text-muted">
-                    {{ post.publish|date:"F d, Y" }} by {{ post.author.username }} in 
-                    <a href="{% url 'blog:category_detail' post.category.slug %}">{{ post.category.name }}</a>
-                </p>
-            </header>
-            
-            {% if post.featured_image %}
-                <img src="{{ post.featured_image.url }}" class="img-fluid mb-4" alt="{{ post.title }}">
-            {% endif %}
-            
-            <div class="content">
-                {{ post.content|linebreaks }}
-            </div>
-            
-            {% if user == post.author %}
-                <div class="mt-4">
-                    <a href="{% url 'blog:post_update' post.slug %}" class="btn btn-warning">Edit</a>
-                    <a href="{% url 'blog:post_delete' post.slug %}" class="btn btn-danger">Delete</a>
-                </div>
-            {% endif %}
-        </article>
-    </div>
-    
-    <div class="col-md-4">
-        <div class="card mb-4">
-            <div class="card-header">About the Author</div>
-            <div class="card-body">
-                <p>{{ post.author.username }}</p>
-            </div>
-        </div>
-    </div>
-</div>
+    {% include "blog/partials/_post.html" with detail_view=True %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/post-images.js' %}"></script>
 {% endblock %}

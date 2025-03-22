@@ -1,4 +1,4 @@
-# FatPyWeb
+# FatPyBlog
 
 A Django web application.
 
@@ -35,7 +35,7 @@ A Django web application.
 
 ## Project Structure
 
-- `FatPyWeb/` - Main project directory
+- `FatPyBlog/` - Main project directory
   - `settings/` - Settings modules
   - `static/` - Project static files
   - `templates/` - Project templates

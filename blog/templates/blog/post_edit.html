@@ -1,0 +1,105 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}{% if form.instance.pk %}Edit Post{% else %}New Post{% endif %} - FatPyBlog{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<style>
+    .CodeMirror {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        height: 400px;
+    }
+    .editor-toolbar {
+        border: 1px solid #ddd;
+        border-radius: 5px 5px 0 0;
+        border-bottom: none;
+    }
+    .editor-statusbar {
+        font-size: 0.8rem;
+        color: #888;
+    }
+</style>
+{% endblock %}
+
+{% block header_title %}{% if form.instance.pk %}Edit Post{% else %}New Post{% endif %}{% endblock %}
+
+{% block header_content %}
+<div class="header-buttons">
+    <a href="{% url 'blog:post_list' %}">Back to posts</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>{% if form.instance.pk %}Edit Post{% else %}Create New Post{% endif %}</h2>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-error">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <div class="form-group mb-3">
+                {{ form.title.errors }}
+                <label for="id_title">Title:</label>
+                {{ form.title }}
+            </div>
+            
+            <div class="form-group mb-3">
+                {{ form.content.errors }}
+                <label for="id_content">Content:</label>
+                <textarea id="id_content" name="content" class="form-control">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
+            </div>
+            
+            <div class="mt-4 d-grid">
+                <button type="submit" class="btn btn-primary btn-block mb-2">{% if form.instance.pk %}Update{% else %}Create{% endif %} Post</button>
+                {% if form.instance.pk %}
+                    <a href="{% url 'blog:post_detail' form.instance.pk %}" class="btn btn-secondary btn-block">Cancel</a>
+                {% else %}
+                    <a href="{% url 'blog:post_list' %}" class="btn btn-secondary btn-block">Cancel</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var simplemde = new SimpleMDE({ 
+            element: document.getElementById("id_content"),
+            spellChecker: false,
+            autosave: {
+                enabled: true,
+                uniqueId: "post_editor",
+                delay: 1000,
+            },
+            toolbar: [
+                "bold", "italic", "heading", "|", 
+                "quote", "code", "unordered-list", "ordered-list", "|",
+                "link", "image", "table", "|",
+                "preview", "side-by-side", "fullscreen", "|",
+                {
+                    name: "guide",
+                    action: "https://www.markdownguide.org/basic-syntax/",
+                    className: "fa fa-question-circle",
+                    title: "Markdown Guide",
+                }
+            ],
+            placeholder: "Write your post content here using Markdown...",
+            renderingConfig: {
+                codeSyntaxHighlighting: true,
+            },
+            status: ["autosave", "lines", "words"]
+        });
+    });
+</script>
+{% endblock %}

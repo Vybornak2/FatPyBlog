@@ -1,0 +1,82 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Subscribe - FatPyBlog{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Page-specific styles */
+    .container #main {
+        max-width: 700px;
+        margin: 1.5rem auto;
+    }
+    #main {
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block header_title %}Subscribe{% endblock %}
+
+{% block header_content %}
+<div class="header-buttons">
+    <a href="{% url 'blog:post_list' %}">Return to posts</a>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if request.GET.subscribed == "true" %}
+    <div class="alert alert-success" id="success-message">
+        Thank you for subscribing! You will now receive updates about our latest posts.
+    </div>
+{% endif %}
+
+<p class="intro-text">Join our newsletter to stay updated with the latest posts and developments.</p>
+
+<h3>Subscriber Benefits:</h3>
+<ul class="benefits-list">
+    <li>Get notified about new blog posts immediately</li>
+    <li>Receive exclusive content available only to subscribers</li>
+    <li>Stay updated with the latest developments and news</li>
+    <li>Unsubscribe anytime with a single click</li>
+</ul>
+
+<div class="subscription-form">
+    <h3 class="form-title">Subscribe to Our Newsletter</h3>
+    <form method="post" id="subscription-form">
+        {% csrf_token %}
+        <div class="form-field">
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+        <button type="submit" id="subscribe-button">Subscribe</button>
+        <p class="form-footer">We respect your privacy. Your email will never be shared.</p>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailInput = document.querySelector('input[type="email"]');
+        emailInput.addEventListener('input', function() {
+            const email = this.value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (emailPattern.test(email)) {
+                this.style.borderColor = '#4CAF50';
+            } else {
+                this.style.borderColor = email ? '#f44336' : '#ccc';
+            }
+        });
+        
+        // Scroll to success message if present
+        const successMessage = document.getElementById('success-message');
+        if (successMessage) {
+            window.scrollTo(0, 0);
+        }
+    });
+</script>
+{% endblock %}
