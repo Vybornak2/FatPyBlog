@@ -122,7 +122,7 @@ STATICFILES_STORAGE = (
 # Local static files (not in apps)
 STATICFILES_DIRS = [
     # Add the blog's static directory
-    BASE_DIR / "FatPyBlog" / "blog" / "static",
+    BASE_DIR / "blog" / "static",  # Corrected path
 ]
 
 # MEDIA CONFIGURATION
