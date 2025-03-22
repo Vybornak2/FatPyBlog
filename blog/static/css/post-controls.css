@@ -2,16 +2,76 @@
     position: relative !important;
 }
 
+/* Styled post meta section containing date, author and tags */
+.post-meta {
+    margin-top: 0.75rem !important; /* Increased from -0.5rem to add more space after title */
+    margin-bottom: 1rem !important;
+    font-size: 0.85rem !important;
+    color: #666 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem 1.5rem !important;
+    align-items: center !important;
+}
+
+.post-meta p {
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+}
+
+.post-meta svg {
+    flex-shrink: 0 !important;
+    color: #777 !important;
+    margin-top: -2px !important;
+}
+
+.meta-label {
+    font-weight: 500 !important;
+    color: #444 !important;
+}
+
 .post .date {
     position: static !important;
     color: #888 !important;
     font-size: 0.85rem !important;
-    margin-top: -0.5rem !important;
-    margin-bottom: 1rem !important;
     display: block !important;
+    margin: 0 !important;
 }
 
-/* Simplified post-actions with subtle vertical dots */
+/* Author styling */
+.post .author {
+    color: #666 !important;
+    margin: 0 !important;
+}
+
+/* Tag styling */
+.post-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    align-items: center !important;
+}
+
+.post-tag {
+    display: inline-block !important;
+    padding: 0.25rem 0.5rem !important;
+    background-color: #f0f4ff !important;
+    color: var(--primary-color) !important;
+    border-radius: 3px !important;
+    text-decoration: none !important;
+    font-size: 0.75rem !important;
+    transition: all 0.2s ease !important;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+}
+
+.post-tag:hover {
+    background-color: var(--primary-light) !important;
+    color: white !important;
+    text-decoration: none !important;
+}
+
 .post-actions {
     position: absolute !important;
     top: 1rem !important;

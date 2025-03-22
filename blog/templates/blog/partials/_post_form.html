@@ -11,6 +11,13 @@
 </div>
 
 <div class="form-group mb-3">
+    {{ form.tags_input.errors }}
+    <label for="id_tags_input">Tags:</label>
+    {{ form.tags_input }}
+    <small class="form-text text-muted">{{ form.tags_input.help_text }}</small>
+</div>
+
+<div class="form-group mb-3">
     {{ form.content.errors }}
     <label for="id_content">Content:</label>
     <textarea id="id_content" name="content" class="form-control">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>

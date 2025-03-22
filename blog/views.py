@@ -3,7 +3,8 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from .models import Post, Subscription, UserProfile
+from django.db.models import Q
+from .models import Post, Subscription, UserProfile, Tag
 from .forms import PostForm, SubscriptionForm, LoginForm, RegisterForm, ProfileForm
 import markdown
 import re
@@ -55,7 +56,18 @@ def post_full_list(request):
     """View to display all posts with full content (main page)."""
     query = request.GET.get("q")
     if query:
-        posts = Post.objects.filter(title__icontains(query)).order_by("-created_at")
+        # Modified search to exclude content, only search title, author and tags
+        posts = (
+            Post.objects.filter(
+                Q(title__icontains=query)
+                | Q(author__username__icontains=query)
+                | Q(author__first_name__icontains=query)
+                | Q(author__last_name__icontains=query)
+                | Q(tags__name__icontains=query)
+            )
+            .distinct()
+            .order_by("-created_at")
+        )
     else:
         posts = Post.objects.all().order_by("-created_at")
 
@@ -72,7 +84,7 @@ def post_full_list(request):
 
 def post_titles_list(request):
     """View to display a list of all posts titles and dates only."""
-    posts = Post.objects.all().order_by('-created_at')
+    posts = Post.objects.all().order_by("-created_at")
     return render(request, "blog/post_list.html", {"posts": posts})
 
 
@@ -82,48 +94,68 @@ def post_detail(request, pk):
     return render(request, "blog/post_detail.html", {"post": post})
 
 
+@login_required(login_url="blog:login")
 def post_new(request):
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, user=request.user)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.save()
+            post = form.save()
             messages.success(request, "Post created successfully!")
             return redirect("blog:post_detail", pk=post.pk)
         else:
             messages.error(request, "Please correct the errors below.")
     else:
-        form = PostForm()
-    
+        form = PostForm(user=request.user)
+
     # Render the form content separately
-    form_content = render(request, "blog/partials/_form_content.html", {"form": form}).content.decode('utf-8')
-    
-    return render(request, "blog/post_edit.html", {"form": form, "form_content": form_content})
+    form_content = render(
+        request, "blog/partials/_form_content.html", {"form": form}
+    ).content.decode("utf-8")
+
+    return render(
+        request, "blog/post_edit.html", {"form": form, "form_content": form_content}
+    )
 
 
+@login_required(login_url="blog:login")
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
+
+    # Check if the user is the author of the post
+    if post.author and post.author != request.user and not request.user.is_staff:
+        messages.error(request, "You don't have permission to edit this post.")
+        return redirect("blog:post_detail", pk=post.pk)
+
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, instance=post, user=request.user)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.save()
+            post = form.save()
             messages.success(request, "Post updated successfully!")
             return redirect("blog:post_detail", pk=post.pk)
         else:
             messages.error(request, "Please correct the errors below.")
     else:
-        form = PostForm(instance=post)
-    
+        form = PostForm(instance=post, user=request.user)
+
     # Render the form content separately
-    form_content = render(request, "blog/partials/_form_content.html", {"form": form}).content.decode('utf-8')
-    
-    return render(request, "blog/post_edit.html", {"form": form, "form_content": form_content})
+    form_content = render(
+        request, "blog/partials/_form_content.html", {"form": form}
+    ).content.decode("utf-8")
+
+    return render(
+        request, "blog/post_edit.html", {"form": form, "form_content": form_content}
+    )
 
 
+@login_required(login_url="blog:login")
 def post_delete(request, pk):
     """Delete a post."""
     post = get_object_or_404(Post, pk=pk)
+
+    # Check if the user is the author of the post
+    if post.author and post.author != request.user and not request.user.is_staff:
+        messages.error(request, "You don't have permission to delete this post.")
+        return redirect("blog:post_detail", pk=post.pk)
 
     if request.method == "POST":
         post.delete()
@@ -131,9 +163,15 @@ def post_delete(request, pk):
         return redirect("blog:post_list")
 
     # Render the delete content separately
-    delete_content = render(request, "blog/partials/_delete_content.html", {"post": post}).content.decode('utf-8')
-    
-    return render(request, "blog/post_delete.html", {"post": post, "delete_content": delete_content})
+    delete_content = render(
+        request, "blog/partials/_delete_content.html", {"post": post}
+    ).content.decode("utf-8")
+
+    return render(
+        request,
+        "blog/post_delete.html",
+        {"post": post, "delete_content": delete_content},
+    )
 
 
 def subscribe(request):
@@ -153,43 +191,43 @@ def subscribe(request):
 # Authentication Views
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('blog:post_list')
-        
+        return redirect("blog:post_list")
+
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Welcome back, {username}!")
                 # Redirect to the page the user was trying to access or default to home
-                next_page = request.GET.get('next', 'blog:post_list')
+                next_page = request.GET.get("next", "blog:post_list")
                 return redirect(next_page)
         else:
             messages.error(request, "Invalid username or password.")
     else:
         form = LoginForm()
-        
-    return render(request, 'blog/login.html', {'form': form})
+
+    return render(request, "blog/login.html", {"form": form})
 
 
 def logout_view(request):
     logout(request)
     messages.success(request, "You have been logged out successfully.")
-    return redirect('blog:post_list')
+    return redirect("blog:post_list")
 
 
 def register_view(request):
     if request.user.is_authenticated:
-        return redirect('blog:post_list')
-        
+        return redirect("blog:post_list")
+
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            
+
             # Explicitly create UserProfile after user is saved
             try:
                 # Check if profile was automatically created by signals
@@ -197,48 +235,48 @@ def register_view(request):
                 if not profile:
                     profile = UserProfile.objects.create(
                         user=user,
-                        title=form.cleaned_data.get('title', ''),
-                        name=f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
+                        title=form.cleaned_data.get("title", ""),
+                        name=f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}",
                     )
-                    
+
                 # Handle newsletter subscription
-                if form.cleaned_data.get('subscribe'):
-                    email = form.cleaned_data.get('email')
+                if form.cleaned_data.get("subscribe"):
+                    email = form.cleaned_data.get("email")
                     if not Subscription.objects.filter(email=email).exists():
                         Subscription.objects.create(email=email)
-                        
+
             except Exception as e:
                 # Log the error but continue (the user is still created)
                 print(f"Error creating user profile: {e}")
-                
+
             login(request, user)
             messages.success(request, "Registration successful!")
-            return redirect('blog:post_list')
+            return redirect("blog:post_list")
         else:
             messages.error(request, "Please correct the errors below.")
     else:
         form = RegisterForm()
-        
-    return render(request, 'blog/register.html', {'form': form})
+
+    return render(request, "blog/register.html", {"form": form})
 
 
-@login_required(login_url='blog:login')
+@login_required(login_url="blog:login")
 def profile_view(request):
     user = request.user
     try:
         profile = user.profile
     except UserProfile.DoesNotExist:
         profile = UserProfile.objects.create(user=user)
-        
+
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=profile, user=user)
         if form.is_valid():
             form.save()
             messages.success(request, "Your profile has been updated successfully!")
-            return redirect('blog:profile')
+            return redirect("blog:profile")
         else:
             messages.error(request, "Please correct the errors below.")
     else:
         form = ProfileForm(instance=profile, user=user)
-        
-    return render(request, 'blog/profile.html', {'form': form})
+
+    return render(request, "blog/profile.html", {"form": form})
