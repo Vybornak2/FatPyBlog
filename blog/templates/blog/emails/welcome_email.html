@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to {{ site_name }} Newsletter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: #233a8f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .footer {
+            padding: 10px 20px;
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+        }
+        .button {
+            display: inline-block;
+            background-color: #233a8f;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to {{ site_name }} Newsletter!</h1>
+    </div>
+    
+    <div class="content">
+        <p>Thank you for subscribing to our newsletter. You'll now receive updates whenever we publish new content.</p>
+        
+        <p>Here's what you can expect:</p>
+        <ul>
+            <li>Notifications about new blog posts</li>
+            <li>Exclusive content for subscribers</li>
+            <li>Updates about site improvements</li>
+        </ul>
+        
+        <p>We're excited to have you join our community!</p>
+        
+        <a href="{{ site_url }}" class="button">Visit Our Blog</a>
+    </div>
+    
+    <div class="footer">
+        <p>You're receiving this email because you subscribed to {{ site_name }} newsletter.</p>
+        <p>If you didn't subscribe or want to unsubscribe, <a href="{{ unsubscribe_url }}">click here</a>.</p>
+    </div>
+</body>
+</html>

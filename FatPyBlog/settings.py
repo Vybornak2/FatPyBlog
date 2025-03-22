@@ -138,6 +138,31 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Create media directories if they don't exist
 os.makedirs(MEDIA_ROOT / "blog" / "featured_images", exist_ok=True)
 
+# EMAIL CONFIGURATION
+# ------------------------------------------------------------------------------
+# Change from console backend to file backend for easier debugging
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"  # Directory where emails will be saved
+
+# Make sure the sent_emails directory exists
+os.makedirs(EMAIL_FILE_PATH, exist_ok=True)
+
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True").lower() == "true"
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@fatpyblog.com")
+
+# Email notification settings
+ENABLE_EMAIL_NOTIFICATIONS = (
+    os.environ.get("ENABLE_EMAIL_NOTIFICATIONS", "True").lower() == "true"
+)
+SEND_EMAILS_ASYNC = os.environ.get("SEND_EMAILS_ASYNC", "True").lower() == "true"
+
+# Site URL for email links
+SITE_URL = os.environ.get("SITE_URL", "http://localhost:8000")
+
 # LOGGING CONFIGURATION
 # ------------------------------------------------------------------------------
 LOGGING = {

@@ -4,11 +4,17 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import Http404
+from django.conf import settings  # Add this import to fix the NameError
 from .models import Post, Subscription, UserProfile, Tag
 from .forms import PostForm, SubscriptionForm, LoginForm, RegisterForm, ProfileForm
 import markdown
 import re
 from .decorators import editor_required
+from .email_utils import send_welcome_email
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def process_markdown_content(content):
@@ -179,14 +185,51 @@ def subscribe(request):
     if request.method == "POST":
         form = SubscriptionForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Thank you for subscribing!")
+            subscription = form.save()
+
+            email_message = "Thank you for subscribing!"
+            if settings.ENABLE_EMAIL_NOTIFICATIONS:
+                if settings.EMAIL_BACKEND.endswith("console.EmailBackend"):
+                    email_message += (
+                        " A welcome email has been sent (check your console output)."
+                    )
+                elif settings.EMAIL_BACKEND.endswith("filebased.EmailBackend"):
+                    email_message += f" A welcome email has been saved to {settings.EMAIL_FILE_PATH}."
+                else:
+                    email_message += (
+                        " A welcome email has been sent to your email address."
+                    )
+
+                try:
+                    send_welcome_email(subscription.email)
+                    logger.info(f"Welcome email sent to {subscription.email}")
+                except Exception as e:
+                    logger.error(f"Failed to send welcome email: {str(e)}")
+
+            messages.success(request, email_message)
             return redirect(f"{reverse('blog:subscribe')}?subscribed=true")
         else:
             messages.error(request, "Please correct the errors below.")
     else:
         form = SubscriptionForm()
     return render(request, "blog/subscribe.html", {"form": form})
+
+
+def unsubscribe(request):
+    # Get email from either query params or POST data
+    email = request.GET.get("email") or ""
+
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            subscription = Subscription.objects.get(email=email)
+            subscription.delete()
+            messages.success(request, "You have been unsubscribed successfully.")
+            return redirect("blog:post_list")
+        except Subscription.DoesNotExist:
+            messages.error(request, "This email is not in our subscription list.")
+
+    return render(request, "blog/unsubscribe.html", {"email": email})
 
 
 # Authentication Views
@@ -202,7 +245,6 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.success(request, f"Welcome back, {username}!")
                 # Redirect to the page the user was trying to access or default to home
                 next_page = request.GET.get("next", "blog:post_list")
                 return redirect(next_page)

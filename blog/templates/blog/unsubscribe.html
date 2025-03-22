@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Unsubscribe - FatPyBlog{% endblock %}
+
+{% with page_subtitle="Unsubscribe from Newsletter" %}
+{% block header_content %}
+{% include "blog/partials/_header_actions.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>Unsubscribe from Newsletter</h2>
+    </div>
+    <div class="content-card-body">
+        <p>We're sorry to see you go! Please confirm that you want to unsubscribe from our newsletter.</p>
+        
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            <div class="form-group mb-3">
+                <label for="email">Email address:</label>
+                <input type="email" id="email" name="email" class="form-control" value="{{ email }}" required>
+            </div>
+            
+            <div class="mt-4 d-grid">
+                <button type="submit" class="btn btn-danger btn-block mb-2">Confirm Unsubscribe</button>
+                <a href="{% url 'blog:post_list' %}" class="btn btn-secondary btn-block">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% endwith %}
