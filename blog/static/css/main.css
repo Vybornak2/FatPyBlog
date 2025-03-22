@@ -77,9 +77,10 @@ header .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Changed from wrap to nowrap for better layout control */
     height: 100%;
     overflow: visible !important; /* Allow dropdown to extend beyond container */
+    align-items: center;
 }
 
 header a {
@@ -149,9 +150,86 @@ header nav li {
 .header-actions {
     flex: 2;
     display: flex;
-    justify-content: center;
+    justify-content: center; /* This is already set to center */
     align-items: center;
     padding: 0 1rem;
+    height: 38px;
+}
+
+/* Unified header controls styling */
+.header-controls-height {
+    height: 38px; /* Consistent height for all header controls */
+}
+
+/* Search form - Complete reset */
+.search-form-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    height: 38px; /* Fixed height */
+    display: flex;
+    align-items: center;
+    align-self: center; /* Added to ensure vertical alignment */
+    margin-top: 0; /* Reset any margins */
+    margin-bottom: 0; /* Reset any margins */
+}
+
+/* Remove any conflicting styles */
+.search-form-container * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Simple flex container for the form */
+.search-form-container form {
+    display: flex;
+    height: 38px;
+    width: 300px;
+}
+
+/* Search input with minimal styling */
+.search-form-container input {
+    height: 38px;
+    flex-grow: 1;
+    border: none;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    padding: 0 10px;
+    font-size: 0.9rem;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    line-height: 38px;
+}
+
+/* Search button with minimal styling */
+.search-form-container button {
+    height: 38px;
+    padding: 0 15px;
+    border: none;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    background: var(--primary-dark);
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 500;
+    line-height: 38px;
+    display: flex;
+    align-items: center;
+}
+
+.search-form-container button:hover {
+    background: var(--primary-light);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+/* Override any generic form styling */
+.search-form-container form,
+.search-form-container input,
+.search-form-container button {
+    display: block;
+    outline: none;
+    margin: 0;
 }
 
 .header-actions form {
@@ -164,36 +242,117 @@ header nav li {
     flex-wrap: nowrap; /* Prevent wrapping */
 }
 
-.header-actions input[type="text"] {
-    padding: 0.5rem;
+.header-actions input[type="text"],
+.search-form-container input[type="text"] {
+    padding: 0 0.75rem; /* Reduced padding to match other elements */
     font-size: 0.9rem;
     border: none;
-    border-radius: var(--border-radius); /* Full rounded corners for consistency */
-    height: 2rem;
+    border-radius: var(--border-radius);
+    height: 38px; /* Match other controls */
+    min-height: 38px; /* Force minimum height */
+    max-height: 38px; /* Force maximum height */
     margin: 0;
-    margin-right: 0.5rem; /* Add space between input and button */
-    width: 70%; /* Adjust width to allow space for button */
-    flex: 1; /* Allow input to grow */
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Add subtle inner shadow for depth */
+    margin-right: 0.5rem;
+    width: 70%;
+    flex: 1;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    line-height: 38px; /* Match line height to container height */
+    display: block; /* Ensure block-level display */
 }
 
-.header-actions button {
-    margin-left: 0; /* Remove left margin */
-    height: 2rem;
-    border-radius: var(--border-radius); /* Full rounded corners to match other buttons */
-    white-space: nowrap; /* Prevent button text from wrapping */
-    padding: 0 1rem; /* Adjust padding */
+.header-actions button,
+.header-buttons a,
+.search-form-container button,
+.menu-toggle {
+    height: 38px; /* Consistent height */
+    min-height: 38px; /* Force minimum height */
+    max-height: 38px; /* Force maximum height */
+    margin-left: 0;
+    border-radius: var(--border-radius);
+    white-space: nowrap;
+    padding: 0 1rem;
     font-size: 0.9rem;
-    background-color: var(--primary-dark); /* Match the dark blue of other buttons */
+    background-color: var(--primary-dark);
     color: var(--light-text);
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: none;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-.header-actions button:hover {
-    background-color: var(--primary-light); /* Same hover effect as other buttons */
+.header-actions button:hover,
+.header-buttons a:hover,
+.search-form-container button:hover,
+.menu-toggle:hover {
+    background-color: var(--primary-light);
     transform: translateY(-2px);
     text-decoration: none;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Search form specific styling */
+.search-form-container form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 38px;
+    min-height: 38px;
+    max-height: 38px;
+    box-sizing: border-box;
+}
+
+.header-actions form,
+.search-form-container form {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+    max-width: 300px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+/* Ensure all form elements in header have the same base styling */
+.search-form-container form,
+.header-buttons,
+.nav-menu {
+    display: flex;
+    align-items: center; /* Ensure vertical alignment */
+    height: 38px; /* Fixed height */
+}
+
+/* Make sure the form vertical alignment is explicitly centered */
+.search-form-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Force vertical centering */
+    z-index: 5;
+    width: auto;
+    max-width: 300px;
+    height: 38px;
+}
+
+/* Reset form styles specifically for the search form */
+.search-form-container form {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    height: 38px;
+    flex-wrap: nowrap;
 }
 
 /* Header Buttons */
@@ -201,6 +360,8 @@ header nav li {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    height: 38px;
+    margin: 0;
 }
 
 .btn, button, .header-buttons a {
@@ -218,9 +379,15 @@ header nav li {
     text-decoration: none;
     transition: var(--transition);
     font-weight: 500;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    margin: 0 0.25rem;
+    line-height: 38px;
 }
 
-.btn:hover, button:hover, .header-buttons a:hover {
+.btn:hover, button:hover, .header-buttons a:hover, .header-actions button:hover {
     background-color: var(--primary-light);
     transform: translateY(-2px);
     text-decoration: none;
@@ -375,7 +542,7 @@ img.md-image-override {
 .post-content-frame iframe, 
 .post-content-frame video, 
 .post-content-frame embed, 
-.post-content-frame object {
+post-content-frame object {
     max-width: 100%;
     max-height: 500px;
 }
@@ -596,6 +763,21 @@ footer p {
     .nav-menu {
         margin-left: auto;
     }
+    
+    .search-form-container {
+        position: static;
+        transform: none;
+        width: 100%;
+        max-width: 100%;
+        margin: 0.5rem 0;
+    }
+    
+    .header-actions button,
+    .header-buttons a,
+    .menu-toggle {
+        height: 38px; /* Maintain consistent height even on mobile */
+        margin: 0.25rem;
+    }
 }
 
 /* Loading spinner */
@@ -622,13 +804,16 @@ footer p {
 .nav-menu {
     margin-left: 0.5rem;
     position: relative;
+    display: flex;
+    align-items: center;
+    height: 38px;
 }
 
 .menu-toggle {
     background: transparent !important;
     border: none !important;
-    width: 40px !important;
-    height: 40px !important;
+    width: 38px !important;  /* Match other controls */
+    height: 38px !important; /* Match other controls */
     padding: 0 !important;
     border-radius: 50% !important;
     cursor: pointer !important;
@@ -636,6 +821,7 @@ footer p {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    line-height: 38px;
 }
 
 .menu-toggle:hover,
@@ -783,4 +969,12 @@ footer p {
 
 .card-body {
     padding: 1.5rem;
+}
+
+/* Common header element height and positioning */
+.header-element {
+    height: 38px;
+    line-height: 38px;
+    display: flex;
+    align-items: center;
 }

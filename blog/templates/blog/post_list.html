@@ -11,7 +11,8 @@
         <!-- Navigation items if needed -->
     </ul>
 </nav>
-<div class="header-actions">
+<!-- Simplified search form with consistent class for vertical alignment -->
+<div class="search-form-container header-element">
     <form method="get" action="{% url 'blog:post_list' %}">
         <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}">
         <button type="submit">Search</button>
