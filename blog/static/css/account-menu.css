@@ -1,0 +1,80 @@
+/* Account Menu Styles */
+.account-menu {
+    position: relative;
+}
+
+.account-menu .dropdown-menu {
+    min-width: 180px !important;
+    margin-top: 0.5rem !important;
+    padding: 0.4rem !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+}
+
+.account-menu .dropdown-item {
+    padding: 0.7rem 1rem !important;
+    font-size: 0.95rem !important;
+    color: var(--text-color) !important;
+    background-color: #fff !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    border-left: 3px solid transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0.2rem 0 !important;
+    white-space: nowrap !important;
+    border-radius: 6px !important;
+}
+
+.account-menu .dropdown-item:hover {
+    background-color: #f4f7ff !important;
+    color: var(--primary-color) !important;
+    border-left-color: var(--primary-color) !important;
+}
+
+/* Animated user avatar */
+.user-avatar {
+    animation: fadeIn 0.3s ease-out;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.account-menu .dropdown-toggle[aria-expanded="true"] .user-avatar {
+    box-shadow: 0 0 0 2px white;
+}
+
+/* Guest icon styles */
+.account-toggle svg {
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+.account-toggle:hover svg {
+    transform: scale(1.1);
+}
+
+/* Dropdown transition */
+.account-menu .dropdown-menu.show {
+    animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .user-avatar {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 12px !important;
+    }
+}
