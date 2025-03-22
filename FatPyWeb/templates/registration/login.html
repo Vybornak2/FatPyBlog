@@ -8,6 +8,15 @@
         <div class="card">
             <div class="card-header">
                 <h2>Login</h2>
+                {% if next %}
+                    {% if 'post_new' in next %}
+                        <p class="text-info">Please login to create a new post.</p>
+                    {% elif 'post_edit' in next %}
+                        <p class="text-info">Please login to edit posts.</p>
+                    {% else %}
+                        <p class="text-info">Please login to access this page.</p>
+                    {% endif %}
+                {% endif %}
             </div>
             <div class="card-body">
                 <form method="post">

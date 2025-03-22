@@ -80,7 +80,7 @@ def post_new(request):
             post = form.save(commit=False)
             post.save()
             messages.success(request, "Post created successfully!")
-            return redirect("post_detail", pk=post.pk)
+            return redirect("blog:post_detail", pk=post.pk)
         else:
             messages.error(request, "Please correct the errors below.")
     else:
@@ -96,12 +96,24 @@ def post_edit(request, pk):
             post = form.save(commit=False)
             post.save()
             messages.success(request, "Post updated successfully!")
-            return redirect("post_detail", pk=post.pk)
+            return redirect("blog:post_detail", pk=post.pk)
         else:
             messages.error(request, "Please correct the errors below.")
     else:
         form = PostForm(instance=post)
     return render(request, "blog/post_edit.html", {"form": form})
+
+
+def post_delete(request, pk):
+    """Delete a post."""
+    post = get_object_or_404(Post, pk=pk)
+
+    if request.method == "POST":
+        post.delete()
+        messages.success(request, "Post deleted successfully!")
+        return redirect("blog:post_list")
+
+    return render(request, "blog/post_delete.html", {"post": post})
 
 
 def subscribe(request):
@@ -110,7 +122,7 @@ def subscribe(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Thank you for subscribing!")
-            return redirect(f"{reverse('subscribe')}?subscribed=true")
+            return redirect(f"{reverse('blog:subscribe')}?subscribed=true")
         else:
             messages.error(request, "Please correct the errors below.")
     else:

@@ -3,38 +3,83 @@
 }
 
 .post .date {
-    position: static !important;  /* Change from absolute to static */
+    position: static !important;
     color: #888 !important;
     font-size: 0.85rem !important;
-    margin-top: -0.5rem !important; /* Add negative margin to bring it closer to the title */
-    margin-bottom: 1rem !important; /* Add space before content */
+    margin-top: -0.5rem !important;
+    margin-bottom: 1rem !important;
     display: block !important;
 }
 
-.edit-button {
+/* Simplified post-actions with subtle vertical dots */
+.post-actions {
     position: absolute !important;
     top: 1rem !important;
     right: 1rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 0.25rem !important; /* Match other buttons */
-    padding: 0.5rem 1rem !important;
-    font-size: 0.9rem !important;
-    background-color: #1a2a6c !important; /* var(--primary-dark) */
-    color: #fff !important; /* var(--light-text) */
-    border: none !important;
-    border-radius: 5px !important; /* var(--border-radius) */
-    cursor: pointer !important;
-    text-decoration: none !important;
-    transition: all 0.3s ease !important;
-    font-weight: 500 !important;
     z-index: 10 !important;
 }
 
-.edit-button:hover {
-    background-color: #3f57b3 !important; /* var(--primary-light) */
-    transform: translateY(-2px) !important;
-    text-decoration: none !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+.post-actions .dropdown-toggle {
+    background: transparent !important;
+    border: none !important;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.post-actions .dropdown-toggle:hover,
+.post-actions .dropdown-toggle:focus {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.post-actions .dropdown-toggle::after {
+    display: none !important;
+}
+
+/* Simplified, subtle, perfectly round dots */
+.vertical-dots {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: 16px !important;
+}
+
+.vertical-dots .dot {
+    width: 4px !important;
+    height: 4px !important;
+    border-radius: 50% !important;
+    background-color: #666 !important; /* More subtle color */
+    margin: 1px 0 !important;
+}
+
+.dropdown-toggle:hover .vertical-dots .dot {
+    background-color: #333 !important; /* Darker on hover but still subtle */
+}
+
+.post-actions .dropdown-menu {
+    min-width: 8rem !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+    border-radius: 5px !important;
+    border: 1px solid #e9ecef !important;
+}
+
+.post-actions .dropdown-item {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.9rem !important;
+}
+
+.post-actions .dropdown-item:hover {
+    background-color: #f8f9fa !important;
+}
+
+.post-actions .dropdown-item.text-danger:hover {
+    background-color: #f8d7da !important;
+    color: #dc3545 !important;
 }

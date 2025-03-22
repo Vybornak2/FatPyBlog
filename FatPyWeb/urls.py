@@ -10,11 +10,12 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("blog/", include("blog.urls", namespace="blog")),
-    # Add user authentication URLs
+    # Add user authentication URLs - make sure these come before blog urls
     path("accounts/", include("django.contrib.auth.urls")),
-    # Redirect root URL to blog
-    path("", RedirectView.as_view(pattern_name="blog:post_list", permanent=False)),
+    # Blog URLs
+    path("", include("blog.urls")),
+    # Redirect root URL to blog list if needed
+    # path("", RedirectView.as_view(pattern_name="blog:post_list", permanent=False)),
 ]
 
 # Serve media files in development

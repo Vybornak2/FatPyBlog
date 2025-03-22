@@ -180,5 +180,6 @@ LOGGING = {
 
 # LOGIN/LOGOUT URLS
 # ------------------------------------------------------------------------------
+LOGIN_URL = "login"  # URL where users should be redirected to log in
 LOGIN_REDIRECT_URL = "blog:post_list"
 LOGOUT_REDIRECT_URL = "blog:post_list"
