@@ -1,0 +1,130 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Project Information - FatPyBlog{% endblock %}
+
+{% with page_subtitle="About This Project" %}
+{% block header_content %}
+{% include "blog/partials/_header_actions.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>About FatPyBlog</h2>
+    </div>
+    <div class="content-card-body">
+        <div class="project-info">
+            <h3>Project Overview</h3>
+            <p>FatPyBlog is a full-featured blog application built with Django. It was created to demonstrate best practices in Python web development and to provide a lightweight yet powerful blogging platform.</p>
+
+            <h3>Key Features</h3>
+            <ul class="feature-list">
+                <li>
+                    <span class="feature-title">Markdown Support</span>
+                    <p>Write your blog posts in Markdown for easy formatting and styling.</p>
+                </li>
+                <li>
+                    <span class="feature-title">User Authentication</span>
+                    <p>Secure user registration and authentication system.</p>
+                </li>
+                <li>
+                    <span class="feature-title">Newsletter Subscription</span>
+                    <p>Allow visitors to subscribe to email notifications for new posts.</p>
+                </li>
+                <li>
+                    <span class="feature-title">Tag-based Organization</span>
+                    <p>Organize posts with tags for better categorization and search.</p>
+                </li>
+                <li>
+                    <span class="feature-title">Responsive Design</span>
+                    <p>Fully responsive interface that works on mobile and desktop devices.</p>
+                </li>
+            </ul>
+
+            <h3>Technical Details</h3>
+            <p>This project is built using:</p>
+            <ul>
+                <li>Django web framework</li>
+                <li>Python 3</li>
+                <li>HTML5, CSS3, and JavaScript</li>
+                <li>Bootstrap for responsive design components</li>
+                <li>SQLite database (configurable for PostgreSQL, MySQL)</li>
+            </ul>
+
+            <h3>Project Goals</h3>
+            <p>The primary goals of FatPyBlog are:</p>
+            <ul>
+                <li>Demonstrate Django best practices</li>
+                <li>Create a clean, maintainable codebase</li>
+                <li>Provide a feature-rich yet simple blogging platform</li>
+                <li>Showcase responsive web design techniques</li>
+            </ul>
+
+            <h3>Getting Started</h3>
+            <p>If you're interested in using or contributing to FatPyBlog:</p>
+            <ul>
+                <li>Check out the <a href="https://github.com/yourusername/FatPyBlog" target="_blank">GitHub repository</a></li>
+                <li>Follow the installation instructions in the README</li>
+                <li>Create your first post by registering as a user</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% endwith %}
+
+{% block extra_head %}
+<style>
+    .project-info h3 {
+        color: var(--primary-color);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+    
+    .project-info h3:first-child {
+        margin-top: 0.5rem;
+    }
+    
+    .project-info p {
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    
+    .project-info ul {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+    
+    .project-info li {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+    
+    .feature-list {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .feature-list li {
+        background: #f9f9f9;
+        border-radius: var(--border-radius);
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-left: 3px solid var(--primary-color);
+    }
+    
+    .feature-title {
+        display: block;
+        font-weight: 500;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .feature-list li p {
+        margin: 0;
+    }
+</style>
+{% endblock %}

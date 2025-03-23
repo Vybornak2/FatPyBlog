@@ -12,6 +12,7 @@ urlpatterns = [
     path("subscribe/", views.subscribe, name="subscribe"),
     path("unsubscribe/", views.unsubscribe, name="unsubscribe"),
     path("post/list/", views.post_titles_list, name="post_titles_list"),
+    path("info/", views.project_info, name="project_info"),
     # Authentication URLs
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),

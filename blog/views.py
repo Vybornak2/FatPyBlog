@@ -326,3 +326,8 @@ def profile_view(request):
         form = ProfileForm(instance=profile, user=user)
 
     return render(request, "blog/profile.html", {"form": form})
+
+
+def project_info(request):
+    """View to display information about the blog project."""
+    return render(request, "blog/project_info.html")

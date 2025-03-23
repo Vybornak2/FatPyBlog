@@ -20,6 +20,18 @@
 {% endblock %}
 
 {% block content %}
+    <!-- Project Info Box -->
+    <div class="project-info-box">
+        <h3>Welcome to FatPyBlog</h3>
+        <p>A lightweight yet powerful blogging platform built with Django and Python.</p>
+        <div class="project-features">
+            <span class="feature-badge">Markdown Support</span>
+            <span class="feature-badge">User Authentication</span>
+            <span class="feature-badge">Newsletter</span>
+        </div>
+        <a href="{% url 'blog:project_info' %}" class="btn btn-sm btn-outline-primary">Learn more</a>
+    </div>
+
     {% if no_results %}
     <div class="alert alert-error">
         <p>No posts found matching "<strong>{{ query }}</strong>".</p>
@@ -45,4 +57,62 @@
 
 {% block scripts %}
 <script src="{% static 'js/post-images.js' %}"></script>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    .project-info-box {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-left: 4px solid var(--primary-color);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .project-info-box h3 {
+        color: var(--primary-color);
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+        font-size: 1.4rem;
+    }
+    
+    .project-info-box p {
+        margin-bottom: 1rem;
+    }
+    
+    .project-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-badge {
+        background-color: rgba(35, 58, 143, 0.1);
+        color: var(--primary-color);
+        border-radius: 20px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.85rem;
+        display: inline-block;
+        font-weight: 500;
+    }
+    
+    .btn-outline-primary {
+        background: transparent;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+    }
+    
+    .btn-outline-primary:hover {
+        background: var(--primary-color);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .btn-sm {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.875rem;
+    }
+</style>
 {% endblock %}
