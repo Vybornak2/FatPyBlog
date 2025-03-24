@@ -5,51 +5,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}FatPy Blog{% endblock %}</title>
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/post-controls.css' %}">
-    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
-    <link rel="stylesheet" href="{% static 'css/account-menu.css' %}">
-    <link rel="stylesheet" href="{% static 'css/content-cards.css' %}">
+    <!-- Base styles -->
+    <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <!-- Component styles -->
+    <link rel="stylesheet" href="{% static 'css/components/navigation.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/alerts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/tags.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/empty-state.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/feature-items.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/links.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/benefits.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/related-posts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/pagination.css' %}">
+    <!-- Page-specific styles -->
     {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <div id="page-wrapper">
-        <header>
-            <div class="container">
-                <div id="branding">
-                    <h1><a href="{% url 'blog:post_list' %}">FatPy Blog</a></h1>
-                    {% if page_subtitle %}
-                    <div class="page-subtitle">{{ page_subtitle }}</div>
-                    {% endif %}
-                </div>
-                {% block header_content %}{% endblock %}
-            </div>
-        </header>
+    <!-- Header -->
+    <header>
         <div class="container">
-            <div id="main">
-                {% if messages %}
-                    <div class="messages">
-                        {% for message in messages %}
-                            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </div>
+            <div id="branding">
+                <h1><a href="{% url 'blog:main_page' %}">FatPy Blog</a></h1>
+                {% if page_subtitle %}
+                <span class="page-subtitle">{{ page_subtitle }}</span>
                 {% endif %}
-                {% block content %}{% endblock %}
             </div>
+            
+            {% include 'blog/partials/_header_actions.html' %}
         </div>
-        <footer>
-            <div class="container">
-                <p>FatPy Blog &copy; {% now "Y" %} - FABER Working Group 6</p>
-            </div>
-        </footer>
+    </header>
+    
+    <!-- Main content -->
+    <div class="container">
+        <div id="main">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% block content %}{% endblock %}
+        </div>
     </div>
-    <!-- Bootstrap JS Bundle with Popper -->
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; {% now "Y" %} FatPy Blog. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Common scripts -->
+    <script src="{% static 'js/common.js' %}"></script>
+    
+    <!-- Page-specific scripts -->
     {% block scripts %}{% endblock %}
 </body>
 </html>

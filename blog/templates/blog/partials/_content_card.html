@@ -1,0 +1,13 @@
+<div class="content-card{% if card_class %} {{ card_class }}{% endif %}">
+  <div class="content-card-header">
+    <h2>{{ title }}</h2>
+  </div>
+  <div class="content-card-body">
+    {{ body|safe }}
+  </div>
+  {% if footer %}
+  <div class="content-card-footer">
+    {{ footer|safe }}
+  </div>
+  {% endif %}
+</div>

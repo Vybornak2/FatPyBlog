@@ -1,0 +1,56 @@
+{% extends 'blog/base.html' %}
+{% load ui_components %}
+{% load layout_components %}
+
+{% block title %}All Posts - FatPy Blog{% endblock %}
+
+{% with page_subtitle="Blog Posts" %}
+{% block content %}
+    {% render_page_header title="Latest Posts" %}
+    
+    <div class="posts-container">
+        {% for post in posts %}
+            {% render_post_item post %}
+        {% empty %}
+            {% render_empty_state 
+                title="No Posts Yet" 
+                message="There are no blog posts published yet." 
+                icon="bi-file-earmark-text" 
+                action_content=create_button|safe 
+            %}
+        {% endfor %}
+    </div>
+    
+    {% if is_paginated %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+    
+    {% if request.user.is_authenticated %}
+    <div class="text-center mt-4">
+        {% render_button url="blog:post_new" text="Create New Post" type="primary" icon="bi-plus" size="lg" %}
+    </div>
+    {% endif %}
+{% endblock %}
+{% endwith %}
+
+{% block extra_head %}
+<style>
+    /* Any page-specific styles would go here, but most are now in the CSS components */
+</style>
+{% endblock %}

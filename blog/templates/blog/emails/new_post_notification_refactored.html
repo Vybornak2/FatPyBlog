@@ -1,0 +1,12 @@
+{% extends "blog/emails/base_email.html" %}
+
+{% block email_content %}
+<h2>{{ post.title }}</h2>
+<p><em>Posted on {{ post.created_at|date:"F j, Y" }}</em></p>
+
+<div class="post-content">
+    {{ post_excerpt|safe }}
+</div>
+
+<a href="{{ post_url }}" class="button">Read Full Post</a>
+{% endblock %}

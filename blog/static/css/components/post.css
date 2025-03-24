@@ -1,0 +1,158 @@
+/* Post component styles */
+@import '../variables.css';
+
+/* Post container */
+.post {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+/* Post-specific styles to go with content-card */
+.post-single {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.post:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.post h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.8rem;
+}
+
+.post h2 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Post metadata */
+.post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+}
+
+.meta-item svg {
+    margin-right: 0.35rem;
+}
+
+/* Post content */
+.post-content {
+    line-height: 1.7;
+}
+
+.post-content h1, .post-content h2, .post-content h3 {
+    color: var(--primary-color);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.post-content p {
+    margin-bottom: 1rem;
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5rem auto;
+    border-radius: 5px;
+}
+
+.post-content code {
+    background-color: #f4f4f4;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.post-content pre {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+.post-content blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1rem;
+    color: #6c757d;
+    margin: 1.5rem 0;
+}
+
+/* Post tags */
+.post-tags {
+    margin-bottom: 1rem;
+}
+
+/* Post actions */
+.post-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+}
+
+.post-actions-dropdown {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+}
+
+.vertical-dots {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 16px;
+}
+
+.vertical-dots .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #666;
+    margin: 1px 0;
+}
+
+.post-footer {
+    padding-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .post {
+        padding: 1rem;
+    }
+    
+    .post h2 {
+        font-size: 1.5rem;
+        padding-right: 80px;
+    }
+    
+    .post-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

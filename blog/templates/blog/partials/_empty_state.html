@@ -1,0 +1,15 @@
+<div class="empty-state">
+    {% if icon %}
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi {{ icon }}" viewBox="0 0 16 16">
+        {{ icon_path|safe }}
+    </svg>
+    {% endif %}
+    <h3>{{ title }}</h3>
+    <p>{{ message }}</p>
+    
+    {% if action_content %}
+    <div class="empty-actions">
+        {{ action_content|safe }}
+    </div>
+    {% endif %}
+</div>

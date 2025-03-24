@@ -1,0 +1,141 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load ui_components %}
+
+{% block title %}Subscribe to Newsletter - FatPy Blog{% endblock %}
+
+{% with page_subtitle="Newsletter" %}
+{% block header_content %}
+{% include "blog/partials/_header_actions.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>Subscribe to the FatPy Newsletter</h2>
+    </div>
+    <div class="content-card-body">
+        {% if success_message %}
+            {% render_alert message=success_message type="success" heading="Success!" %}
+        {% else %}
+            <p class="intro-text">Join our newsletter to stay updated with the latest developments, research findings, and community news related to FatPy and material fatigue analysis.</p>
+            
+            <div class="benefits-section">
+                <h3>Why Subscribe?</h3>
+                
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
+                                <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5z"/>
+                                <path d="M2 3h10v2H2zm0 3h4v3H2zm0 4h4v1H2zm0 2h4v1H2zm5-6h2v1H7zm3 0h2v1h-2zM7 8h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2z"/>
+                            </svg>
+                        </div>
+                        <h4>Research Updates</h4>
+                        <p>Get notified about new research findings and developments in material fatigue analysis</p>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-code" viewBox="0 0 16 16">
+                                <path d="M5.854 4.854a.5.5 0 1 0-.708-.708l-3.5 3.5a.5.5 0 0 0 0 .708l3.5 3.5a.5.5 0 0 0 .708-.708L2.707 8l3.147-3.146zm4.292 0a.5.5 0 0 1 .708-.708l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 0 1-.708-.708L13.293 8l-3.147-3.146z"/>
+                            </svg>
+                        </div>
+                        <h4>Software Updates</h4>
+                        <p>Learn about FatPy software updates, new features, and improvements</p>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                                <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                            </svg>
+                        </div>
+                        <h4>Community News</h4>
+                        <p>Stay informed about FABER Working Group 6 activities and collaboration opportunities</p>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-envelope-check" viewBox="0 0 16 16">
+                                <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z"/>
+                                <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z"/>
+                            </svg>
+                        </div>
+                        <h4>Early Access</h4>
+                        <p>Be the first to know about upcoming features, tools, and educational resources</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subscription-form">
+                <h4 class="form-title">Sign Up Now</h4>
+                
+                {% if form_errors %}
+                <div class="alert alert-error">
+                    <ul class="error-list">
+                        {% for error in form_errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                
+                <form method="post" action="{% url 'blog:subscribe' %}">
+                    {% csrf_token %}
+                    <div class="form-field">
+                        <label for="id_name">Name:</label>
+                        <input type="text" name="name" id="id_name" placeholder="Your name" required>
+                        {% if field_errors.name %}
+                        <div class="field-error-text">{{ field_errors.name.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-field">
+                        <label for="id_email">Email:</label>
+                        <input type="email" name="email" id="id_email" placeholder="Your email address" required>
+                        {% if field_errors.email %}
+                        <div class="field-error-text">{{ field_errors.email.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-lg">Subscribe to Newsletter</button>
+                    </div>
+                    
+                    <div class="form-footer">
+                        We respect your privacy. You can unsubscribe at any time.
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% endwith %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailInput = document.querySelector('input[type="email"]');
+        if (emailInput) {
+            emailInput.addEventListener('input', function() {
+                const email = this.value;
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (emailPattern.test(email)) {
+                    this.style.borderColor = '#4CAF50';
+                } else {
+                    this.style.borderColor = email ? '#f44336' : '#ccc';
+                }
+            });
+        }
+        
+        // Scroll to success message if present
+        const successMessage = document.getElementById('success-message');
+        if (successMessage) {
+            window.scrollTo(0, 0);
+        }
+    });
+</script>
+{% endblock %}

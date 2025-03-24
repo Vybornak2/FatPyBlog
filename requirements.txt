@@ -16,3 +16,6 @@ Pillow>=9.0.0  # Required for ImageField
 
 # Security
 django-environ>=0.8.0
+
+# Add markdown to the requirements
+markdown>=3.4.3

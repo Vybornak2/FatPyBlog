@@ -1,0 +1,6 @@
+<a href="{{ url }}" {% if new_tab %}target="_blank"{% endif %} class="link-card">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi {{ icon_class }}" viewBox="0 0 16 16">
+        {{ icon_path|safe }}
+    </svg>
+    <span>{{ text }}</span>
+</a>

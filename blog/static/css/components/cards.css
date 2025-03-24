@@ -1,0 +1,63 @@
+/* Card component styles */
+@import '../variables.css';
+
+/* Base card */
+.content-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.content-card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    padding: 1.25rem 1.5rem;
+}
+
+.content-card-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.content-card-body {
+    padding: 1.5rem;
+}
+
+.content-card-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+    padding: 1rem 1.5rem;
+}
+
+/* Card variations */
+.hero-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-left: 4px solid var(--primary-color);
+}
+
+.cta-card .content-card-header {
+    background-color: var(--primary-color);
+}
+
+.cta-card .content-card-header h2 {
+    color: white;
+}
+
+.delete-card .content-card-header {
+    background-color: #f8d7da;
+}
+
+.delete-card .content-card-header h2 {
+    color: #721c24;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .content-card-body {
+        padding: 1rem;
+    }
+}

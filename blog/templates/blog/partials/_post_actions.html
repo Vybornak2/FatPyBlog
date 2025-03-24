@@ -1,0 +1,9 @@
+{% load ui_components %}
+<div class="post-actions">
+    {% if request.user == post.author or request.user.is_staff %}
+    <div class="btn-group" role="group">
+        {% render_button url="blog:post_edit" text="Edit" type="outline" icon="bi-pencil" args=post.pk %}
+        {% render_button url="blog:post_delete" text="Delete" type="danger" icon="bi-trash" args=post.pk %}
+    </div>
+    {% endif %}
+</div>

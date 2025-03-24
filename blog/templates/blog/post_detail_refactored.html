@@ -1,0 +1,56 @@
+{% extends 'blog/base.html' %}
+{% load ui_components %}
+{% load layout_components %}
+
+{% block title %}{{ post.title }} - FatPy Blog{% endblock %}
+
+{% block content %}
+    {% render_page_header title=post.title %}
+    
+    <div class="content-card post-single">
+        <div class="content-card-body">
+            <header class="post-header">
+                <div class="post-meta">
+                    <div class="meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                        </svg>
+                        {{ post.author.username }}
+                    </div>
+                    
+                    <div class="meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                            <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                            <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                        </svg>
+                        {{ post.created_at|date:"F j, Y" }}
+                    </div>
+                </div>
+                
+                {% if post.tags.all %}
+                <div class="post-tags">
+                    {% for tag in post.tags.all %}
+                        {% render_tag tag.name %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% render_post_actions post request %}
+            </header>
+            
+            <div class="post-content">
+                {{ post.rendered_content|safe }}
+            </div>
+        </div>
+        
+        <div class="content-card-footer">
+            <div class="post-footer">
+                {% render_button url="blog:post_list" text="Back to Posts" type="outline" icon="bi-arrow-left" %}
+                
+                {% if related_posts %}
+                    {% render_related_posts related_posts %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

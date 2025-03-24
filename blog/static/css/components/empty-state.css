@@ -1,0 +1,30 @@
+/* Empty state component styles */
+@import '../variables.css';
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background-color: var(--content-bg);
+    border-radius: var(--border-radius);
+    margin: 1.5rem 0;
+}
+
+.empty-state svg {
+    color: #adb5bd;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: #495057;
+    margin-bottom: 0.75rem;
+}
+
+.empty-state p {
+    color: #6c757d;
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+}
+
+.empty-actions {
+    margin-top: 1.25rem;
+}

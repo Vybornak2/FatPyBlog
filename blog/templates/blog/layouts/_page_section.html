@@ -1,0 +1,9 @@
+<section {% if id %}id="{{ id }}"{% endif %} class="page-section{% if css_class %} {{ css_class }}{% endif %}">
+    {% if title %}
+    <h2 class="section-title">{{ title }}</h2>
+    {% endif %}
+    
+    <div class="section-content">
+        {{ body|safe }}
+    </div>
+</section>

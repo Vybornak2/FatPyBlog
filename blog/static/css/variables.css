@@ -1,0 +1,27 @@
+:root {
+    /* Color system */
+    --primary-color: #233a8f;
+    --primary-dark: #1a2a6c;
+    --primary-light: #3f57b3;
+    --background-color: #f0f4ff;
+    --text-color: #333;
+    --light-text: #fff;
+    --border-color: #ddd;
+
+    /* Status colors */
+    --success-color: #3c763d;
+    --success-bg: #dff0d8;
+    --error-color: #a94442;
+    --error-bg: #f8d7da;
+    --warning-bg: #fcf8e3;
+    --warning-color: #8a6d3b;
+    --info-bg: #d9edf7;
+    --info-color: #31708f;
+
+    /* UI elements */
+    --code-bg: #f5f5f5;
+    --content-bg: #f9f9f9;
+    --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    --border-radius: 5px;
+    --transition: all 0.3s ease;
+}

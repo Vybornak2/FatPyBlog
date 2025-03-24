@@ -1,0 +1,75 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load ui_components %}
+{% load layout_components %}
+
+{% block title %}FatPy Project Information - FatPyBlog{% endblock %}
+
+{% with page_subtitle="About FatPy" %}
+{% block content %}
+<!-- Introduction Section -->
+{% render_page_header title="Welcome to FatPy Blog" %}
+
+{% render_page_section body="Welcome to the FatPy Blog, your central hub for updates, insights, and developments related to FatPy—a Python package designed for the fatigue life evaluation of materials. This blog serves as both an information resource and the foundation for our forthcoming newsletter, keeping you informed about the latest advancements and community efforts surrounding FatPy." %}
+
+<!-- About FatPy Section -->
+{% render_page_section title="Introducing FatPy" body=fatpy_intro %}
+
+<!-- Key Features Section -->
+{% render_page_section title="Key Features" body='
+    <p>FatPy is designed to provide comprehensive tools for fatigue analysis while maintaining a user-friendly interface. Here are some of its standout features:</p>
+    
+    <div class="key-features">
+        {% render_feature_item title="Material Fatigue Analysis" description="Advanced algorithms for accurate fatigue life prediction of engineering materials" icon_class="bi-graph-up" %}
+        
+        {% render_feature_item title="Modular Architecture" description="Flexible design that supports various fatigue models and methodologies" icon_class="bi-boxes" %}
+        
+        {% render_feature_item title="Open Source" description="Community-driven development with transparent, accessible code" icon_class="bi-code-square" %}
+    </div>
+'|safe %}
+
+<!-- FABER project and Repository -->
+{% render_content_card 
+    title="The FABER Project & Working Group 6"
+    body='
+        <p>FatPy is a key initiative of Working Group 6 (WG6) within the FABER (Fatigue Benchmark Repository) project, operating under COST Action CA23109.</p>
+        
+        <div class="links-row">
+            {% render_link_card url="https://faber-cost.eu/" text="FABER Website" icon_class="bi-globe" %}
+            {% render_link_card url="https://faber-cost.eu/media-newsletter/" text="FABER Newsletter" icon_class="bi-newspaper" %}
+        </div>
+    '
+%}
+
+<!-- Resources section -->
+{% render_content_card 
+    title="Resources"
+    body='
+        <div class="links-row">
+            {% render_link_card url="https://github.com/Vybornak2/FatPy" text="FatPy Repository" icon_class="bi-github" %}
+            {% render_link_card url="https://github.com/Vybornak2/FatPy/wiki" text="FatPy Wiki" icon_class="bi-book" %}
+        </div>
+    '
+%}
+
+<!-- Contribution Section -->
+{% render_page_section title="How to Contribute" body='
+    <p>We warmly invite you to contribute to the development and enhancement of FatPy. Whether you are interested in coding, testing, documentation, or providing feedback, your participation is invaluable.</p>
+    
+    <div class="contribution-steps">
+        {{ contribution_steps|safe }}
+    </div>
+'|safe %}
+
+<!-- Newsletter CTA Section -->
+<div class="content-card cta-card">
+    <div class="content-card-header">
+        <h2>Stay Updated</h2>
+    </div>
+    <div class="content-card-body text-center">
+        <p>Subscribe to our newsletter to receive the latest updates about FatPy development, research findings, and community news.</p>
+        {% render_button url="blog:subscribe" text="Subscribe to Newsletter" type="primary" size="lg" %}
+    </div>
+</div>
+{% endblock %}
+{% endwith %}

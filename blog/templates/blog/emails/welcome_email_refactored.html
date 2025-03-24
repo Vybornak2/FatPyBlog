@@ -1,0 +1,15 @@
+{% extends "blog/emails/base_email.html" %}
+
+{% block email_content %}
+<h2>Welcome to the FatPy Blog Newsletter!</h2>
+<p>Hello {{ subscriber_name }},</p>
+<p>Thank you for subscribing to the FatPy Blog Newsletter. You will now receive updates about:</p>
+<ul>
+    <li>New FatPy software releases and features</li>
+    <li>Educational content on fatigue analysis</li>
+    <li>Community news and events</li>
+    <li>Research findings in the field of material fatigue</li>
+</ul>
+<p>We're excited to have you join our community of engineers and researchers interested in advancing fatigue analysis methods.</p>
+<a href="{{ blog_url }}" class="button">Visit the Blog</a>
+{% endblock %}

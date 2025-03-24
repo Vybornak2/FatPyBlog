@@ -1,0 +1,40 @@
+{% extends 'blog/base.html' %}
+{% load ui_components %}
+{% load layout_components %}
+{% load content_helpers %}
+
+{% block title %}All Posts - FatPy Blog{% endblock %}
+
+{% with page_subtitle="Blog Posts" %}
+{% block content %}
+    {% render_page_header title="Latest Posts" %}
+    
+    {% if search_query %}
+    <div class="search-results-info">
+        Showing results for: <strong>{{ search_query }}</strong>
+        {% render_button url="blog:post_list" text="Clear Search" type="outline" size="sm" %}
+    </div>
+    {% endif %}
+    
+    <div class="posts-container">
+        {% for post in posts %}
+            {% render_post_item post %}
+        {% empty %}
+            {% render_empty_state 
+                title="No Posts Yet" 
+                message="There are no blog posts published yet." 
+                icon="bi-file-earmark-text" 
+                action_content=create_button|safe 
+            %}
+        {% endfor %}
+    </div>
+    
+    {% render_pagination page_obj %}
+    
+    {% if request.user.is_authenticated %}
+    <div class="text-center mt-4">
+        {% render_button url="blog:post_new" text="Create New Post" type="primary" icon="bi-plus" size="lg" %}
+    </div>
+    {% endif %}
+{% endblock %}
+{% endwith %}
