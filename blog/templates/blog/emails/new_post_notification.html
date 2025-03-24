@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>New Post: {{ post_title }}</title>
+    <title>New FatPy Post: {{ post_title }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -82,7 +82,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>New Post on {{ site_name }}</h1>
+        <h1>New Post on FatPy Blog</h1>
     </div>
     
     <div class="content">
@@ -93,12 +93,12 @@
         </div>
         
         <div class="read-more">
-            <a href="{{ post_url }}" class="button">Read on Website</a>
+            <a href="{{ post_url }}" class="button">Read Full Post on Website</a>
         </div>
     </div>
     
     <div class="footer">
-        <p>You're receiving this email because you subscribed to {{ site_name }} newsletter.</p>
+        <p>You're receiving this email because you subscribed to the FatPy newsletter - part of the FABER Working Group 6 project.</p>
         <p>If you want to unsubscribe, <a href="{{ unsubscribe_url }}?email={{ subscriber_email|urlencode }}">click here</a>.</p>
     </div>
 </body>

@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 {% load static %}
 
-{% block title %}FatPyBlog{% endblock %}
+{% block title %}FatPy Blog{% endblock %}
 
 {% block header_content %}
 <nav>
@@ -20,39 +20,108 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Project Info Box -->
-    <div class="project-info-box">
-        <h3>Welcome to FatPyBlog</h3>
-        <p>A lightweight yet powerful blogging platform built with Django and Python.</p>
-        <div class="project-features">
-            <span class="feature-badge">Markdown Support</span>
-            <span class="feature-badge">User Authentication</span>
-            <span class="feature-badge">Newsletter</span>
+    <!-- Welcome Section -->
+    <div class="content-card hero-card">
+        <div class="content-card-body">
+            <h2>Welcome to FatPy Blog</h2>
+            <p>Your central hub for updates, insights, and developments related to FatPy—a Python package for fatigue life evaluation of materials.</p>
+            
+            <div class="tags-container">
+                <span class="tag">FABER Project</span>
+                <span class="tag">Working Group 6</span>
+                <span class="tag">Material Fatigue Analysis</span>
+            </div>
+            
+            <div class="actions">
+                <a href="{% url 'blog:project_info' %}" class="btn btn-primary">Learn About FatPy</a>
+                <a href="{% url 'blog:subscribe' %}" class="btn btn-outline">Subscribe to Updates</a>
+            </div>
         </div>
-        <a href="{% url 'blog:project_info' %}" class="btn btn-sm btn-outline-primary">Learn more</a>
     </div>
 
-    {% if no_results %}
-    <div class="alert alert-error">
-        <p>No posts found matching "<strong>{{ query }}</strong>".</p>
-        <a href="{% url 'blog:post_list' %}" class="btn">View all posts</a>
+    <!-- Search Results Notice -->
+    {% if query %}
+    <div class="content-card search-results-card">
+        <div class="content-card-body">
+            <h3>
+                {% if posts %}
+                    Search results for: <span class="search-term">"{{ query }}"</span>
+                {% else %}
+                    No posts found matching: <span class="search-term">"{{ query }}"</span>
+                {% endif %}
+            </h3>
+            
+            {% if not posts %}
+                <div class="search-actions">
+                    <a href="{% url 'blog:post_list' %}" class="btn">View all posts</a>
+                </div>
+            {% endif %}
+        </div>
     </div>
     {% endif %}
     
-    {% for post in posts %}
-        {% include "blog/partials/_post.html" with detail_view=False %}
-    {% empty %}
-        {% if not no_results %}
-        <div class="empty-state">
-            <p>No posts available yet.
-            {% if is_editor %}
-                Be the first to create one!
-                <a href="{% url 'blog:post_new' %}" class="btn">Create New Post</a>
+    <!-- Posts Section -->
+    <div class="posts-section">
+        <h2 class="section-title">Latest Updates</h2>
+        
+        {% for post in posts %}
+            {% include "blog/partials/_post.html" with detail_view=False %}
+        {% empty %}
+            {% if not query %}
+            <div class="empty-state content-card">
+                <div class="content-card-body text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-file-earmark-post" viewBox="0 0 16 16">
+                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                        <path d="M4 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7zm0-3a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                    <h3>No Posts Available Yet</h3>
+                    <p>Check back soon for updates about FatPy development and material fatigue research.</p>
+                    
+                    {% if is_editor %}
+                    <div class="empty-actions">
+                        <a href="{% url 'blog:post_new' %}" class="btn btn-primary">Create New Post</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
             {% endif %}
-            </p>
+        {% endfor %}
+    </div>
+    
+    <!-- Quick Links Section -->
+    <div class="content-card quick-links-card">
+        <div class="content-card-header">
+            <h2>Quick Links</h2>
         </div>
-        {% endif %}
-    {% endfor %}
+        <div class="content-card-body">
+            <div class="quick-links">
+                <a href="https://github.com/Vybornak2/FatPy" target="_blank" class="quick-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                    </svg>
+                    <span>FatPy Repository</span>
+                </a>
+                <a href="https://faber-cost.eu/" target="_blank" class="quick-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-globe" viewBox="0 0 16 16">
+                        <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472M3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933M8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4z"/>
+                    </svg>
+                    <span>FABER Website</span>
+                </a>
+                <a href="https://www.linkedin.com/company/faber-cost/about/" target="_blank" class="quick-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                        <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2 3.226 2 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+                    </svg>
+                    <span>FABER LinkedIn</span>
+                </a>
+                <a href="https://github.com/Vybornak2/FatPy/wiki" target="_blank" class="quick-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+                        <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+                    </svg>
+                    <span>FatPy Documentation</span>
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
@@ -61,34 +130,53 @@
 
 {% block extra_head %}
 <style>
-    .project-info-box {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: var(--border-radius);
-        padding: 1.5rem;
+    /* Content Cards styling */
+    .content-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         margin-bottom: 2rem;
-        border-left: 4px solid var(--primary-color);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        overflow: hidden;
     }
     
-    .project-info-box h3 {
+    .content-card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #eee;
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .content-card-header h2 {
+        margin: 0;
+        color: var(--primary-color);
+        font-weight: 500;
+        font-size: 1.5rem;
+    }
+    
+    .content-card-body {
+        padding: 1.5rem;
+    }
+    
+    /* Hero card section */
+    .hero-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-left: 4px solid var(--primary-color);
+    }
+    
+    .hero-card h2 {
         color: var(--primary-color);
         margin-top: 0;
         margin-bottom: 0.75rem;
-        font-size: 1.4rem;
+        font-size: 1.75rem;
     }
     
-    .project-info-box p {
-        margin-bottom: 1rem;
-    }
-    
-    .project-features {
+    .tags-container {
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
-        margin-bottom: 1rem;
+        margin: 1.25rem 0;
     }
     
-    .feature-badge {
+    .tag {
         background-color: rgba(35, 58, 143, 0.1);
         color: var(--primary-color);
         border-radius: 20px;
@@ -98,21 +186,137 @@
         font-weight: 500;
     }
     
-    .btn-outline-primary {
-        background: transparent;
-        border: 1px solid var(--primary-color);
-        color: var(--primary-color);
+    .actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
     }
     
-    .btn-outline-primary:hover {
-        background: var(--primary-color);
+    .btn {
+        display: inline-block;
+        padding: 0.5rem 1.25rem;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
         color: white;
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        background-color: #1c2e70;
+        color: white;
+    }
+    
+    .btn-outline {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+    }
+    
+    .btn-outline:hover {
+        background-color: rgba(35, 58, 143, 0.1);
         text-decoration: none;
     }
     
-    .btn-sm {
-        padding: 0.25rem 0.75rem;
-        font-size: 0.875rem;
+    /* Search results */
+    .search-results-card {
+        background-color: #f8f9fa;
+    }
+    
+    .search-term {
+        color: var(--primary-color);
+        font-weight: 500;
+    }
+    
+    .search-actions {
+        margin-top: 1rem;
+    }
+    
+    /* Posts section */
+    .section-title {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+        font-size: 1.5rem;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 0.75rem;
+    }
+    
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1.5rem;
+    }
+    
+    .empty-state svg {
+        color: #adb5bd;
+        margin-bottom: 1rem;
+    }
+    
+    .empty-state h3 {
+        color: #495057;
+        margin-bottom: 0.75rem;
+    }
+    
+    .empty-state p {
+        color: #6c757d;
+        max-width: 500px;
+        margin: 0 auto 1.5rem;
+    }
+    
+    .empty-actions {
+        margin-top: 1.25rem;
+    }
+    
+    .text-center {
+        text-align: center;
+    }
+    
+    /* Quick links section */
+    .quick-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1rem;
+    }
+    
+    .quick-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1.25rem;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--primary-color);
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: 1px solid #eee;
+    }
+    
+    .quick-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .quick-link svg {
+        margin-right: 0.75rem;
+        flex-shrink: 0;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .actions {
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+            text-align: center;
+        }
     }
 </style>
 {% endblock %}

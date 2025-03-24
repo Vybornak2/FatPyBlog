@@ -1,0 +1,139 @@
+/* Content Cards Base Styling */
+.content-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.content-card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    padding: 1.25rem 1.5rem;
+}
+
+.content-card-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.content-card-body {
+    padding: 1.5rem;
+}
+
+.content-card-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+    padding: 1rem 1.5rem;
+}
+
+/* Common Button Styling */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.25rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.btn svg {
+    margin-right: 0.35rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #1c2e70;
+    color: white;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: rgba(35, 58, 143, 0.1);
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    color: white;
+}
+
+/* Tag Styling */
+.tag {
+    background-color: rgba(35, 58, 143, 0.1);
+    color: var(--primary-color);
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+    display: inline-block;
+    font-weight: 500;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+}
+
+.tag:hover {
+    background-color: rgba(35, 58, 143, 0.2);
+    text-decoration: none;
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+/* Responsive Helpers */
+.text-center {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        width: 100%;
+    }
+    
+    .content-card-body {
+        padding: 1rem;
+    }
+}

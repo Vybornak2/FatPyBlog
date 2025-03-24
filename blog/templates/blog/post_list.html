@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 {% load static %}
 
-{% block title %}Post Titles - FatPyBlog{% endblock %}
+{% block title %}Post Titles - FatPy Blog{% endblock %}
 
 {% with page_subtitle="Post Titles List" %}
 {% block header_content %}
@@ -14,53 +14,61 @@
 {% endblock %}
 
 {% block content %}
-    <div class="post-titles-container">
-        <h2>All Posts</h2>
-        <div class="post-titles-list">
-            <!-- Table header -->
-            <div class="post-title-header">
-                <div class="col-title">Title</div>
-                <div class="col-author">Author</div>
-                <div class="col-tags">Tags</div>
-                <div class="col-date">Date</div>
-            </div>
-            
-            {% for post in posts %}
-                <div class="post-title-item">
-                    <div class="col-title">
-                        <a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a>
-                    </div>
-                    <div class="col-author">
-                        {% if post.author %}
-                            {{ post.author.first_name }} {{ post.author.last_name }}
-                            {% if not post.author.first_name and not post.author.last_name %}
-                                {{ post.author.username }}
+    <div class="content-card">
+        <div class="content-card-header">
+            <h2>All Posts</h2>
+        </div>
+        <div class="content-card-body">
+            <div class="post-titles-list">
+                <!-- Table header -->
+                <div class="post-title-header">
+                    <div class="col-title">Title</div>
+                    <div class="col-author">Author</div>
+                    <div class="col-tags">Tags</div>
+                    <div class="col-date">Date</div>
+                </div>
+                
+                {% for post in posts %}
+                    <div class="post-title-item">
+                        <div class="col-title">
+                            <a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a>
+                        </div>
+                        <div class="col-author">
+                            {% if post.author %}
+                                {{ post.author.first_name }} {{ post.author.last_name }}
+                                {% if not post.author.first_name and not post.author.last_name %}
+                                    {{ post.author.username }}
+                                {% endif %}
+                            {% else %}
+                                -
                             {% endif %}
-                        {% else %}
-                            -
+                        </div>
+                        <div class="col-tags">
+                            {% if post.tags.all %}
+                                {% for tag in post.tags.all %}
+                                    <a href="{% url 'blog:post_list' %}?q={{ tag.name }}" class="post-tag">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </div>
+                        <div class="col-date">
+                            {{ post.created_at|date:"F j, Y" }}
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="empty-state">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-file-earmark-post" viewBox="0 0 16 16">
+                            <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                            <path d="M4 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7zm0-3a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                        <p>No posts available yet.</p>
+                        {% if is_editor %}
+                        <a href="{% url 'blog:post_new' %}" class="btn btn-primary">Create New Post</a>
                         {% endif %}
                     </div>
-                    <div class="col-tags">
-                        {% if post.tags.all %}
-                            {% for tag in post.tags.all %}
-                                <a href="{% url 'blog:post_list' %}?q={{ tag.name }}" class="post-tag">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </div>
-                    <div class="col-date">
-                        {{ post.created_at|date:"F j, Y" }}
-                    </div>
-                </div>
-            {% empty %}
-                <div class="empty-state">
-                    <p>No posts available yet.</p>
-                    {% if is_editor %}
-                    <a href="{% url 'blog:post_new' %}" class="btn">Create New Post</a>
-                    {% endif %}
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -68,14 +76,32 @@
 
 {% block extra_head %}
 <style>
-    .post-titles-container {
+    .content-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+        overflow: hidden;
+    }
+    
+    .content-card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #eee;
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .content-card-header h2 {
+        margin: 0;
+        color: var(--primary-color);
+        font-weight: 500;
+        font-size: 1.5rem;
+    }
+    
+    .content-card-body {
         padding: 1rem;
-        background: #fff;
-        border-radius: 5px;
     }
     
     .post-titles-list {
-        margin-top: 1.5rem;
         border: 1px solid #eee;
         border-radius: 5px;
         overflow: hidden;
@@ -142,6 +168,39 @@
     
     .post-tag:hover {
         text-decoration: underline;
+    }
+    
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1.5rem;
+    }
+    
+    .empty-state svg {
+        color: #adb5bd;
+        margin-bottom: 1rem;
+    }
+    
+    .empty-state p {
+        color: #6c757d;
+        margin: 0.75rem 0 1.5rem;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.5rem 1.25rem;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.2s;
+        display: inline-block;
+    }
+    
+    .btn-primary:hover {
+        background-color: #1c2e70;
+        color: white;
     }
     
     /* Responsive design for mobile */

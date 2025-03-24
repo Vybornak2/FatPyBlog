@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 {% load static %}
 
-{% block title %}Delete Post - FatPyBlog{% endblock %}
+{% block title %}Delete Post - FatPy Blog{% endblock %}
 
 {% with page_subtitle="Delete Post" %}
 {% block header_content %}
@@ -9,6 +9,213 @@
 {% endblock %}
 
 {% block content %}
-{% include "blog/partials/_content_frame.html" with title="Confirm Deletion" content=delete_content|default:"" %}
+<div class="content-card delete-card">
+    <div class="content-card-header">
+        <h2>Confirm Deletion</h2>
+    </div>
+    <div class="content-card-body">
+        <div class="warning-message">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+            </svg>
+            <p>Are you sure you want to delete the post "<strong>{{ post.title }}</strong>"?</p>
+            <p class="text-muted">This action cannot be undone.</p>
+        </div>
+        
+        <div class="post-summary">
+            <h3>Post Summary</h3>
+            <table class="summary-table">
+                <tr>
+                    <th>Title:</th>
+                    <td>{{ post.title }}</td>
+                </tr>
+                <tr>
+                    <th>Created:</th>
+                    <td>{{ post.created_at|date:"F j, Y" }}</td>
+                </tr>
+                {% if post.author %}
+                <tr>
+                    <th>Author:</th>
+                    <td>{{ post.author.first_name }} {{ post.author.last_name }}</td>
+                </tr>
+                {% endif %}
+                {% if post.tags.all %}
+                <tr>
+                    <th>Tags:</th>
+                    <td>
+                        {% for tag in post.tags.all %}
+                            <span class="tag-item">{{ tag.name }}</span>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-danger">Delete Post</button>
+                <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
 {% endwith %}
+
+{% block extra_head %}
+<style>
+    /* Content Cards styling */
+    .content-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+        overflow: hidden;
+    }
+    
+    .content-card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #eee;
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .content-card-header h2 {
+        margin: 0;
+        color: var(--primary-color);
+        font-weight: 500;
+        font-size: 1.5rem;
+    }
+    
+    .content-card-body {
+        padding: 1.5rem;
+    }
+    
+    .delete-card .content-card-header {
+        background-color: #f8d7da;
+    }
+    
+    .delete-card .content-card-header h2 {
+        color: #721c24;
+    }
+    
+    /* Warning message */
+    .warning-message {
+        background-color: #f8d7da;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        color: #721c24;
+    }
+    
+    .warning-message svg {
+        color: #dc3545;
+        margin-bottom: 1rem;
+    }
+    
+    .warning-message p {
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .text-muted {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    /* Post summary */
+    .post-summary {
+        margin-bottom: 2rem;
+    }
+    
+    .post-summary h3 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        font-weight: 500;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 0.5rem;
+    }
+    
+    .summary-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .summary-table th, .summary-table td {
+        padding: 0.5rem;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .summary-table th {
+        width: 120px;
+        color: #495057;
+        font-weight: 500;
+    }
+    
+    .tag-item {
+        display: inline-block;
+        background-color: rgba(35, 58, 143, 0.1);
+        color: var(--primary-color);
+        border-radius: 20px;
+        padding: 0.1rem 0.5rem;
+        font-size: 0.85rem;
+        margin: 0.1rem 0;
+    }
+    
+    /* Action buttons */
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+    }
+    
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+    
+    .btn-outline {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+    }
+    
+    .btn-outline:hover {
+        background-color: rgba(35, 58, 143, 0.1);
+        text-decoration: none;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .action-buttons {
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
